@@ -1,0 +1,2535 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌳 宣信魔法森林學園 - 闖關冒險 🌳</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Lilita+One&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --forest-deep: #1a3a2e;
+  --forest-mid: #2d5a3d;
+  --forest-light: #5a8c5e;
+  --moss: #7fa650;
+  --leaf: #a8d76e;
+  --sun: #ffd966;
+  --sun-glow: #ffb84d;
+  --berry: #e85d75;
+  --berry-deep: #c14458;
+  --magic: #b88fd8;
+  --magic-deep: #7c5fa3;
+  --bark: #6b4423;
+  --bark-light: #8b5a2b;
+  --cream: #fff8e7;
+  --mist: #e8f5e9;
+  --gold: #f0c14b;
+  --gold-deep: #c89824;
+  --water: #6bb6d8;
+  --water-deep: #4a89a8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans TC', 'Fredoka', sans-serif;
+  background: linear-gradient(180deg, #2d5a3d 0%, #1a3a2e 50%, #0f2419 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--cream);
+  position: relative;
+}
+
+.forest-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.firefly {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--sun);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--sun), 0 0 20px var(--sun-glow), 0 0 30px var(--sun-glow);
+  animation: float-firefly 8s infinite ease-in-out;
+}
+
+@keyframes float-firefly {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+  25% { transform: translate(30px, -40px) scale(1.2); opacity: 1; }
+  50% { transform: translate(-20px, -80px) scale(0.8); opacity: 0.6; }
+  75% { transform: translate(40px, -50px) scale(1.1); opacity: 0.9; }
+}
+
+.mist-layer {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(168, 215, 110, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(184, 143, 216, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(255, 217, 102, 0.05) 0%, transparent 70%);
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.card {
+  background: linear-gradient(145deg, #fff8e7 0%, #ffeec7 100%);
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.8),
+    0 0 0 4px var(--bark),
+    0 0 0 8px var(--gold);
+  color: var(--forest-deep);
+  position: relative;
+  animation: card-appear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes card-appear {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.leaf-deco {
+  position: absolute;
+  font-size: 40px;
+  opacity: 0.6;
+  animation: leaf-sway 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes leaf-sway {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(15deg); }
+}
+
+.title {
+  font-family: 'Lilita One', 'Noto Sans TC', cursive;
+  font-size: 48px;
+  text-align: center;
+  background: linear-gradient(180deg, var(--forest-mid) 0%, var(--forest-deep) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+  text-shadow: 3px 3px 0 rgba(107, 68, 35, 0.1);
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 18px;
+  color: var(--bark);
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.subtitle::before { content: "🌿 "; }
+.subtitle::after { content: " 🌿"; }
+
+.mascot {
+  text-align: center;
+  font-size: 90px;
+  margin: 15px 0;
+  animation: bounce 2s ease-in-out infinite;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-15px) rotate(-5deg); }
+}
+
+.input-group { margin-bottom: 22px; }
+
+.input-label {
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--forest-deep);
+  margin-bottom: 10px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 17px;
+  font-family: inherit;
+  border: 3px solid var(--moss);
+  border-radius: 15px;
+  background: white;
+  color: var(--forest-deep);
+  transition: all 0.3s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--berry);
+  box-shadow: 0 0 0 4px rgba(232, 93, 117, 0.2);
+}
+
+.btn {
+  display: inline-block;
+  padding: 14px 32px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: inherit;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  letter-spacing: 1px;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, var(--berry) 0%, var(--berry-deep) 100%);
+  color: white;
+  box-shadow: 0 6px 0 var(--berry-deep), 0 8px 20px rgba(232, 93, 117, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 0 var(--berry-deep), 0 12px 25px rgba(232, 93, 117, 0.5);
+}
+
+.btn-primary:active { transform: translateY(3px); box-shadow: 0 3px 0 var(--berry-deep); }
+
+.btn-magic {
+  background: linear-gradient(180deg, var(--magic) 0%, var(--magic-deep) 100%);
+  color: white;
+  box-shadow: 0 6px 0 var(--magic-deep);
+}
+
+.btn-magic:hover { transform: translateY(-3px); box-shadow: 0 9px 0 var(--magic-deep); }
+
+.btn-gold {
+  background: linear-gradient(180deg, var(--sun) 0%, var(--gold-deep) 100%);
+  color: var(--forest-deep);
+  box-shadow: 0 6px 0 var(--gold-deep);
+}
+
+.btn-gold:hover { transform: translateY(-3px); box-shadow: 0 9px 0 var(--gold-deep); }
+
+.btn-secondary {
+  background: linear-gradient(180deg, #d4d4d4 0%, #999 100%);
+  color: var(--forest-deep);
+  box-shadow: 0 6px 0 #777;
+}
+
+.btn-secondary:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #777; }
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.choice-card {
+  background: white;
+  border: 4px solid var(--moss);
+  border-radius: 20px;
+  padding: 25px 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.choice-card:hover {
+  transform: translateY(-5px) rotate(-1deg);
+  border-color: var(--berry);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.choice-card.selected {
+  background: linear-gradient(135deg, var(--leaf) 0%, var(--moss) 100%);
+  border-color: var(--forest-deep);
+  color: white;
+  transform: scale(1.05);
+}
+
+.choice-emoji {
+  font-size: 50px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.choice-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--forest-deep);
+}
+
+.choice-card.selected .choice-text { color: white; }
+
+.grade-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.grade-btn {
+  background: linear-gradient(145deg, white 0%, var(--mist) 100%);
+  border: 3px solid var(--moss);
+  border-radius: 18px;
+  padding: 15px 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+
+.grade-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  border-color: var(--berry);
+}
+
+.grade-btn.selected {
+  background: linear-gradient(135deg, var(--berry) 0%, var(--berry-deep) 100%);
+  border-color: var(--forest-deep);
+}
+
+.grade-btn.selected .grade-num,
+.grade-btn.selected .grade-label { color: white; }
+
+.grade-num {
+  font-family: 'Lilita One', cursive;
+  font-size: 32px;
+  color: var(--berry);
+  display: block;
+}
+
+.grade-label {
+  font-size: 13px;
+  color: var(--forest-deep);
+  font-weight: 600;
+}
+
+/* 學期選擇 */
+.semester-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.semester-btn {
+  background: white;
+  border: 3px solid var(--moss);
+  border-radius: 18px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: inherit;
+  text-align: center;
+}
+
+.semester-btn:hover {
+  transform: translateY(-3px);
+  border-color: var(--berry);
+}
+
+.semester-btn.selected {
+  background: linear-gradient(135deg, var(--magic) 0%, var(--magic-deep) 100%);
+  border-color: var(--forest-deep);
+  color: white;
+}
+
+.semester-emoji { font-size: 36px; display: block; margin-bottom: 5px; }
+.semester-text { font-size: 18px; font-weight: 700; color: var(--forest-deep); }
+.semester-btn.selected .semester-text { color: white; }
+
+/* ============== 闖關地圖 ============== */
+.map-container {
+  position: relative;
+  background: linear-gradient(180deg, #cde8a6 0%, #a8d76e 50%, #7fa650 100%);
+  border-radius: 25px;
+  padding: 30px 20px;
+  margin: 20px 0;
+  border: 4px solid var(--bark);
+  min-height: 580px;
+  overflow: hidden;
+}
+
+.map-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255, 217, 102, 0.3) 0%, transparent 30%),
+    radial-gradient(circle at 80% 70%, rgba(255, 217, 102, 0.2) 0%, transparent 30%);
+  pointer-events: none;
+}
+
+.map-decoration {
+  position: absolute;
+  font-size: 32px;
+  opacity: 0.7;
+  animation: leaf-sway 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.map-path {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.stage {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 2;
+  font-family: inherit;
+  border: 5px solid white;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.2), 0 12px 25px rgba(0, 0, 0, 0.3);
+}
+
+.stage.locked {
+  background: linear-gradient(145deg, #999 0%, #666 100%);
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.stage.unlocked {
+  background: linear-gradient(145deg, var(--sun) 0%, var(--gold-deep) 100%);
+  animation: stage-pulse 2s ease-in-out infinite;
+}
+
+.stage.completed {
+  background: linear-gradient(145deg, var(--leaf) 0%, var(--moss) 100%);
+}
+
+.stage.unlocked:hover { transform: scale(1.15); }
+
+@keyframes stage-pulse {
+  0%, 100% { box-shadow: 0 8px 0 rgba(0, 0, 0, 0.2), 0 12px 25px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 217, 102, 0.7); }
+  50% { box-shadow: 0 8px 0 rgba(0, 0, 0, 0.2), 0 12px 25px rgba(0, 0, 0, 0.3), 0 0 0 15px rgba(255, 217, 102, 0); }
+}
+
+.stage-emoji {
+  font-size: 38px;
+  margin-bottom: 2px;
+}
+
+.stage-num {
+  font-family: 'Lilita One', cursive;
+  font-size: 16px;
+  color: var(--forest-deep);
+  background: white;
+  padding: 1px 10px;
+  border-radius: 10px;
+}
+
+.stage-stars {
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  background: white;
+  border-radius: 20px;
+  padding: 2px 8px;
+  font-size: 14px;
+  border: 2px solid var(--gold);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.player-marker {
+  position: absolute;
+  font-size: 40px;
+  z-index: 3;
+  transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+  animation: player-float 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes player-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* 答題 */
+.stats-bar {
+  display: flex;
+  justify-content: space-around;
+  background: linear-gradient(135deg, var(--forest-mid) 0%, var(--forest-deep) 100%);
+  padding: 15px;
+  border-radius: 20px;
+  margin: 15px 0;
+  color: white;
+  border: 3px solid var(--gold);
+}
+
+.stat-item { text-align: center; }
+
+.stat-value {
+  font-family: 'Lilita One', cursive;
+  font-size: 26px;
+  color: var(--sun);
+  display: block;
+}
+
+.stat-label {
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+.progress-bar {
+  background: rgba(45, 90, 61, 0.2);
+  height: 22px;
+  border-radius: 50px;
+  overflow: hidden;
+  margin: 15px 0;
+  border: 3px solid var(--bark);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--leaf) 0%, var(--moss) 50%, var(--sun) 100%);
+  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+.question-area {
+  background: linear-gradient(135deg, var(--mist) 0%, white 100%);
+  border-radius: 20px;
+  padding: 25px;
+  margin: 15px 0;
+  border: 3px dashed var(--moss);
+}
+
+.question-number {
+  display: inline-block;
+  background: var(--berry);
+  color: white;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.stage-badge {
+  display: inline-block;
+  background: var(--magic-deep);
+  color: white;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+  margin-left: 8px;
+}
+
+.question-text {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--forest-deep);
+  text-align: center;
+  margin: 15px 0;
+  line-height: 1.5;
+  min-height: 50px;
+}
+
+.answers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.answer-btn {
+  background: white;
+  border: 3px solid var(--moss);
+  border-radius: 15px;
+  padding: 18px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: inherit;
+  color: var(--forest-deep);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.answer-btn:hover {
+  transform: translateY(-3px);
+  border-color: var(--berry);
+  background: var(--cream);
+}
+
+.answer-btn.correct {
+  background: linear-gradient(135deg, var(--leaf) 0%, var(--moss) 100%);
+  border-color: var(--forest-deep);
+  color: white;
+  animation: correct-pulse 0.5s;
+}
+
+.answer-btn.wrong {
+  background: linear-gradient(135deg, var(--berry) 0%, var(--berry-deep) 100%);
+  border-color: var(--berry-deep);
+  color: white;
+  animation: wrong-shake 0.5s;
+}
+
+@keyframes correct-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes wrong-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+/* 關卡完成頁 */
+.stage-complete {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.stage-complete-emoji {
+  font-size: 100px;
+  animation: celebrate 1s ease-in-out infinite alternate;
+  margin: 20px 0;
+}
+
+.stars-earned {
+  font-size: 60px;
+  margin: 20px 0;
+  letter-spacing: 10px;
+}
+
+.star-empty { opacity: 0.2; filter: grayscale(1); }
+.star-filled { animation: star-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards; }
+.star-filled:nth-child(1) { animation-delay: 0.2s; }
+.star-filled:nth-child(2) { animation-delay: 0.5s; }
+.star-filled:nth-child(3) { animation-delay: 0.8s; }
+
+@keyframes star-pop {
+  from { transform: scale(0) rotate(-180deg); opacity: 0; }
+  to { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+@keyframes celebrate {
+  from { transform: rotate(-10deg) scale(1); }
+  to { transform: rotate(10deg) scale(1.1); }
+}
+
+/* 最終結果頁 */
+.score-display { text-align: center; margin: 20px 0; }
+
+.score-number {
+  font-family: 'Lilita One', cursive;
+  font-size: 90px;
+  background: linear-gradient(180deg, var(--sun) 0%, var(--gold-deep) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 4px 4px 0 rgba(107, 68, 35, 0.2);
+}
+
+.score-label {
+  font-size: 22px;
+  color: var(--bark);
+  font-weight: 700;
+}
+
+.medal {
+  font-size: 80px;
+  text-align: center;
+  margin: 15px 0;
+}
+
+.feedback-text {
+  text-align: center;
+  font-size: 20px;
+  color: var(--forest-deep);
+  font-weight: 600;
+  margin: 15px 0;
+  line-height: 1.6;
+}
+
+/* 排行榜 */
+.leaderboard {
+  background: linear-gradient(135deg, var(--cream) 0%, white 100%);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 15px 0;
+  border: 3px solid var(--gold);
+}
+
+.leaderboard-title {
+  font-family: 'Lilita One', cursive;
+  font-size: 28px;
+  text-align: center;
+  color: var(--forest-deep);
+  margin-bottom: 15px;
+}
+
+.lb-filter {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lb-filter-btn {
+  background: white;
+  border: 2px solid var(--moss);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  color: var(--forest-deep);
+  transition: all 0.2s;
+}
+
+.lb-filter-btn.active {
+  background: var(--berry);
+  border-color: var(--berry-deep);
+  color: white;
+}
+
+.leader-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  padding: 12px 15px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  border-left: 6px solid var(--moss);
+  transition: transform 0.2s;
+}
+
+.leader-item:hover { transform: translateX(5px); }
+
+.leader-item.rank-1 {
+  border-left-color: var(--gold);
+  background: linear-gradient(90deg, rgba(240, 193, 75, 0.2) 0%, white 100%);
+}
+
+.leader-item.rank-2 {
+  border-left-color: #c0c0c0;
+  background: linear-gradient(90deg, rgba(192, 192, 192, 0.2) 0%, white 100%);
+}
+
+.leader-item.rank-3 {
+  border-left-color: #cd7f32;
+  background: linear-gradient(90deg, rgba(205, 127, 50, 0.2) 0%, white 100%);
+}
+
+.leader-rank {
+  font-family: 'Lilita One', cursive;
+  font-size: 24px;
+  width: 45px;
+  color: var(--berry);
+}
+
+.leader-info { flex: 1; margin: 0 12px; }
+
+.leader-name {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--forest-deep);
+}
+
+.leader-detail {
+  font-size: 11px;
+  color: var(--bark);
+}
+
+.leader-score {
+  font-family: 'Lilita One', cursive;
+  font-size: 22px;
+  color: var(--berry);
+}
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.player-info-bar {
+  background: linear-gradient(135deg, var(--forest-mid) 0%, var(--forest-deep) 100%);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 50px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  border: 3px solid var(--gold);
+}
+
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.hidden { display: none !important; }
+
+@media (max-width: 600px) {
+  .title { font-size: 32px; }
+  .question-text { font-size: 20px; }
+  .choice-grid, .answers-grid { grid-template-columns: 1fr; }
+  .grade-grid { grid-template-columns: repeat(3, 1fr); }
+  .card { padding: 20px 15px; }
+  .score-number { font-size: 60px; }
+  .stage { width: 90px; height: 90px; }
+  .stage-emoji { font-size: 30px; }
+  .map-container { padding: 20px 10px; min-height: 600px; }
+  .player-info-bar { font-size: 13px; padding: 10px 15px; }
+}
+</style>
+</head>
+<body>
+
+<div class="forest-bg">
+  <div class="mist-layer"></div>
+</div>
+
+<div class="container">
+
+  <!-- 起始頁 -->
+  <div id="screen-start" class="card">
+    <div class="leaf-deco" style="top: 20px; left: 20px;">🍃</div>
+    <div class="leaf-deco" style="top: 30px; right: 30px; animation-delay: 1s;">🌿</div>
+    <div class="leaf-deco" style="bottom: 30px; left: 30px; animation-delay: 2s;">🍂</div>
+
+    <h1 class="title">魔法森林學園</h1>
+    <p class="subtitle">宣信國小 1-6 年級 闖關冒險</p>
+
+    <div class="mascot">🦉</div>
+
+    <div class="input-group">
+      <label class="input-label">🌟 小冒險家，告訴我你的名字：</label>
+      <input type="text" id="player-name" class="input-field" placeholder="輸入你的名字..." maxlength="10">
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">📚 你是幾年級的小法師？</label>
+      <div class="grade-grid">
+        <button class="grade-btn" data-grade="1"><span class="grade-num">1</span><span class="grade-label">一年級</span></button>
+        <button class="grade-btn" data-grade="2"><span class="grade-num">2</span><span class="grade-label">二年級</span></button>
+        <button class="grade-btn" data-grade="3"><span class="grade-num">3</span><span class="grade-label">三年級</span></button>
+        <button class="grade-btn" data-grade="4"><span class="grade-num">4</span><span class="grade-label">四年級</span></button>
+        <button class="grade-btn" data-grade="5"><span class="grade-num">5</span><span class="grade-label">五年級</span></button>
+        <button class="grade-btn" data-grade="6"><span class="grade-num">6</span><span class="grade-label">六年級</span></button>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">🌸 選擇學期：</label>
+      <div class="semester-grid">
+        <div class="semester-btn" data-semester="1">
+          <span class="semester-emoji">🌸</span>
+          <span class="semester-text">上學期</span>
+        </div>
+        <div class="semester-btn" data-semester="2">
+          <span class="semester-emoji">🌻</span>
+          <span class="semester-text">下學期</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">🎯 選擇冒險主題：</label>
+      <div class="choice-grid">
+        <div class="choice-card" data-subject="math">
+          <span class="choice-emoji">🔢</span>
+          <span class="choice-text">數學魔法</span>
+        </div>
+        <div class="choice-card" data-subject="english">
+          <span class="choice-emoji">🔤</span>
+          <span class="choice-text">英文咒語</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 25px;">
+      <button class="btn btn-primary" onclick="startAdventure()">✨ 進入森林 ✨</button>
+      <button class="btn btn-gold" onclick="showLeaderboard()" style="margin-left: 8px;">🏆 排行榜</button>
+    </div>
+  </div>
+
+  <!-- 闖關地圖頁 -->
+  <div id="screen-map" class="card hidden">
+    <div class="player-info-bar">
+      <span>🧚 <strong id="map-player-name"></strong></span>
+      <span id="map-info-text"></span>
+      <span>⭐ <strong id="map-total-stars">0</strong>/15</span>
+    </div>
+
+    <h1 class="title" style="font-size: 36px;">🗺️ 闖關地圖</h1>
+    <p class="subtitle" id="map-subtitle"></p>
+
+    <div class="map-container" id="map">
+      <!-- 由 JS 生成 -->
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goHome()">🏠 回主畫面</button>
+      <button class="btn btn-gold" onclick="showLeaderboard()">🏆 排行榜</button>
+    </div>
+  </div>
+
+  <!-- 測驗頁 -->
+  <div id="screen-quiz" class="card hidden">
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-value" id="current-q">1</span>
+        <span class="stat-label">題目</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="current-stage">1</span>
+        <span class="stat-label">關卡</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="current-score">0</span>
+        <span class="stat-label">本關得分</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="streak">0</span>
+        <span class="stat-label">🔥連勝</span>
+      </div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress" style="width: 0%"></div>
+    </div>
+
+    <div class="question-area">
+      <div style="text-align: center;">
+        <span class="question-number" id="q-number">第 1 題 / 共 10 題</span>
+        <span class="stage-badge" id="q-stage">第 1 關</span>
+      </div>
+      <div class="mascot" id="quiz-mascot" style="font-size: 60px;">🧚</div>
+      <div class="question-text" id="question-text"></div>
+      <div class="answers-grid" id="answers"></div>
+    </div>
+  </div>
+
+  <!-- 關卡完成頁 -->
+  <div id="screen-stage-complete" class="card hidden">
+    <h1 class="title" id="stage-complete-title">關卡完成！</h1>
+    <div class="stage-complete">
+      <div class="stage-complete-emoji" id="stage-mascot">🎉</div>
+      <div class="stars-earned" id="stars-earned"></div>
+      <div class="feedback-text" id="stage-feedback"></div>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-value" id="stage-correct">0</span>
+        <span class="stat-label">答對</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="stage-score-val">0</span>
+        <span class="stat-label">本關分數</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="total-score-now">0</span>
+        <span class="stat-label">累積總分</span>
+      </div>
+    </div>
+
+    <div class="btn-row" id="stage-complete-btns">
+      <!-- 由 JS 生成 -->
+    </div>
+  </div>
+
+  <!-- 最終通關頁 -->
+  <div id="screen-final" class="card hidden">
+    <h1 class="title">🏆 通關成功 🏆</h1>
+    <div class="mascot" style="font-size: 130px; animation: celebrate 1s ease-in-out infinite alternate;">🦄</div>
+    <div class="medal" id="final-medal">🏅</div>
+
+    <div class="score-display">
+      <div class="score-number" id="final-score">0</div>
+      <div class="score-label">總分（滿分 500）</div>
+    </div>
+
+    <div style="text-align: center; font-size: 50px; margin: 15px 0; letter-spacing: 5px;" id="final-stars"></div>
+
+    <div class="feedback-text" id="final-feedback"></div>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-value" id="final-correct">0</span>
+        <span class="stat-label">答對</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="final-stars-num">0</span>
+        <span class="stat-label">⭐ 星星</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="final-streak">0</span>
+        <span class="stat-label">最佳連勝</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="restartAdventure()">🔄 再挑戰一次</button>
+      <button class="btn btn-gold" onclick="showLeaderboard()">🏆 排行榜</button>
+      <button class="btn btn-secondary" onclick="goHome()">🏠 主畫面</button>
+    </div>
+  </div>
+
+  <!-- 排行榜頁 -->
+  <div id="screen-leaderboard" class="card hidden">
+    <h1 class="title">🏆 魔法榜 🏆</h1>
+    <p class="subtitle">森林裡最厲害的小法師們</p>
+
+    <div class="leaderboard">
+      <div class="leaderboard-title">⭐ 名人堂 ⭐</div>
+      <div class="lb-filter" id="lb-filter">
+        <button class="lb-filter-btn active" data-filter="all">全部</button>
+        <button class="lb-filter-btn" data-filter="math">🔢 數學</button>
+        <button class="lb-filter-btn" data-filter="english">🔤 英文</button>
+      </div>
+      <div id="leader-list"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="goHome()">🏠 回到森林</button>
+      <button class="btn btn-magic" onclick="clearLeaderboard()">🗑️ 清空榜單</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============== 螢火蟲背景 ==============
+function createFireflies() {
+  const bg = document.querySelector('.forest-bg');
+  for (let i = 0; i < 30; i++) {
+    const f = document.createElement('div');
+    f.className = 'firefly';
+    f.style.left = Math.random() * 100 + '%';
+    f.style.top = Math.random() * 100 + '%';
+    f.style.animationDelay = Math.random() * 8 + 's';
+    f.style.animationDuration = (6 + Math.random() * 6) + 's';
+    bg.appendChild(f);
+  }
+}
+createFireflies();
+
+// ============== 數學題目生成（依年級+學期+關卡難度） ==============
+// 難度係數 1-5（簡單到難），對應五個關卡
+function generateMathQuestion(grade, semester, level) {
+  // grade: 1-6, semester: 1=上 2=下, level: 1-5
+  // 設計：每個年級每學期都有 5 個難度層級
+  const isUpper = semester === 1;
+  const used = new Set();
+
+  function makeQ(question, answer, isFloat = false) {
+    return makeMC(question, answer, isFloat);
+  }
+
+  if (grade === 1) {
+    if (isUpper) {
+      // 1上：認識10以內數字、加減法
+      switch (level) {
+        case 1: { const a = rand(1, 5), b = rand(1, 5 - a + 1); return makeQ(`${a} + ${b} = ?`, a + b); }
+        case 2: { const a = rand(1, 9), b = rand(1, 10 - a); return makeQ(`${a} + ${b} = ?`, a + b); }
+        case 3: { const a = rand(5, 10), b = rand(1, a); return makeQ(`${a} - ${b} = ?`, a - b); }
+        case 4: { const a = rand(1, 10); return makeQ(`比 ${a} 多 2 是多少？`, a + 2); }
+        case 5: { const a = rand(3, 10); return makeQ(`比 ${a} 少 3 是多少？`, a - 3); }
+      }
+    } else {
+      // 1下：20以內加減
+      switch (level) {
+        case 1: { const a = rand(5, 10), b = rand(1, 10); return makeQ(`${a} + ${b} = ?`, a + b); }
+        case 2: { const a = rand(10, 20), b = rand(1, a); return makeQ(`${a} - ${b} = ?`, a - b); }
+        case 3: { const a = rand(11, 19); return makeQ(`${a} 比 10 多多少？`, a - 10); }
+        case 4: { const a = rand(8, 15), b = rand(3, 8); return makeQ(`${a} + ${b} = ?`, a + b); }
+        case 5: { const a = rand(3, 8); return makeQ(`小明有 ${a} 顆糖，又得到 ${a + 2} 顆，共幾顆？`, a + a + 2); }
+      }
+    }
+  } else if (grade === 2) {
+    if (isUpper) {
+      // 2上：百以內加減、乘法概念
+      switch (level) {
+        case 1: { const a = rand(10, 50), b = rand(10, 49); return makeQ(`${a} + ${b} = ?`, a + b); }
+        case 2: { const a = rand(50, 99), b = rand(10, a - 5); return makeQ(`${a} - ${b} = ?`, a - b); }
+        case 3: { const a = rand(2, 5), b = rand(2, 5); return makeQ(`${a} × ${b} = ?`, a * b); }
+        case 4: { const a = rand(20, 60), b = rand(20, 39); return makeQ(`${a} + ${b} = ?`, a + b); }
+        case 5: { const a = rand(60, 99), b = rand(20, 50); return makeQ(`${a} - ${b} = ?`, a - b); }
+      }
+    } else {
+      // 2下：九九乘法、進階加減
+      switch (level) {
+        case 1: { const a = rand(2, 5), b = rand(2, 9); return makeQ(`${a} × ${b} = ?`, a * b); }
+        case 2: { const a = rand(2, 9), b = rand(2, 9); return makeQ(`${a} × ${b} = ?`, a * b); }
+        case 3: { const a = rand(100, 500), b = rand(50, 200); return makeQ(`${a} + ${b} = ?`, a + b); }
+        case 4: { const a = rand(200, 800), b = rand(50, 199); return makeQ(`${a} - ${b} = ?`, a - b); }
+        case 5: { const a = rand(3, 9), b = rand(3, 9); return makeQ(`${a} × ${b} 比 ${a*b - 5} 多多少？`, 5); }
+      }
+    }
+  } else if (grade === 3) {
+    if (isUpper) {
+      // 3上：除法、千以內加減
+      switch (level) {
+        case 1: { const a = rand(2, 9), b = rand(2, 9); return makeQ(`${a} × ${b} = ?`, a * b); }
+        case 2: { const b = rand(2, 9), ans = rand(2, 9); return makeQ(`${b * ans} ÷ ${b} = ?`, ans); }
+        case 3: { const a = rand(100, 999), b = rand(100, 500); return makeQ(`${a} + ${b} = ?`, a + b); }
+        case 4: { const a = rand(500, 999), b = rand(100, 499); return makeQ(`${a} - ${b} = ?`, a - b); }
+        case 5: { const b = rand(3, 9), ans = rand(5, 12); return makeQ(`${b * ans} ÷ ${b} = ?`, ans); }
+      }
+    } else {
+      // 3下：分數概念、進階乘除
+      switch (level) {
+        case 1: { const a = rand(10, 30), b = rand(2, 9); return makeQ(`${a} × ${b} = ?`, a * b); }
+        case 2: { const b = rand(2, 9), ans = rand(10, 20); return makeQ(`${b * ans} ÷ ${b} = ?`, ans); }
+        case 3: { return makeQ(`一個圓平均分成 4 份，1 份是幾分之幾？`, '1/4', false, ['1/2', '1/3', '1/4', '2/4']); }
+        case 4: { const a = rand(20, 50), b = rand(3, 9); return makeQ(`${a} × ${b} = ?`, a * b); }
+        case 5: { const b = rand(4, 9), ans = rand(15, 25); return makeQ(`${b * ans} ÷ ${b} = ?`, ans); }
+      }
+    }
+  } else if (grade === 4) {
+    if (isUpper) {
+      // 4上：較大數乘除、簡單分數
+      switch (level) {
+        case 1: { const a = rand(10, 30), b = rand(3, 9); return makeQ(`${a} × ${b} = ?`, a * b); }
+        case 2: { const a = rand(20, 50), b = rand(4, 9); return makeQ(`${a} × ${b} = ?`, a * b); }
+        case 3: { const b = rand(3, 9), ans = rand(15, 30); return makeQ(`${b * ans} ÷ ${b} = ?`, ans); }
+        case 4: { return makeQ(`1/4 + 2/4 = ?`, '3/4', false, ['1/4', '2/4', '3/4', '4/4']); }
+        case 5: { const a = rand(100, 300), b = rand(3, 9); return makeQ(`${a} × ${b} = ?`, a * b); }
+      }
+    } else {
+      // 4下：分數運算、小數認識
+      switch (level) {
+        case 1: { return makeQ(`2/5 + 1/5 = ?`, '3/5', false, ['1/5', '2/5', '3/5', '3/10']); }
+        case 2: { return makeQ(`3/7 + 2/7 = ?`, '5/7', false, ['5/14', '5/7', '6/7', '4/7']); }
+        case 3: { const a = (rand(10, 50) / 10).toFixed(1); const b = (rand(10, 50) / 10).toFixed(1); const ans = +(parseFloat(a) + parseFloat(b)).toFixed(1); return makeQ(`${a} + ${b} = ?`, ans, true); }
+        case 4: { const a = rand(100, 500), b = rand(10, 30); return makeQ(`${a} × ${b} = ?`, a * b); }
+        case 5: { const b = rand(5, 12), ans = rand(20, 50); return makeQ(`${b * ans} ÷ ${b} = ?`, ans); }
+      }
+    }
+  } else if (grade === 5) {
+    if (isUpper) {
+      // 5上：分數加減、小數運算
+      switch (level) {
+        case 1: { return makeQ(`1/2 + 1/4 = ?`, '3/4', false, ['1/4', '2/6', '3/4', '2/4']); }
+        case 2: { return makeQ(`2/3 + 1/6 = ?`, '5/6', false, ['3/9', '5/6', '4/6', '3/6']); }
+        case 3: { const a = (rand(10, 90) / 10).toFixed(1); const b = (rand(10, 50) / 10).toFixed(1); const ans = +(parseFloat(a) - parseFloat(b)).toFixed(1); return makeQ(`${a} - ${b} = ?`, ans, true); }
+        case 4: { const a = (rand(20, 80) / 10).toFixed(1); const b = rand(2, 5); const ans = +(parseFloat(a) * b).toFixed(1); return makeQ(`${a} × ${b} = ?`, ans, true); }
+        case 5: { const a = rand(1000, 3000), b = rand(20, 50); return makeQ(`${a} × ${b} = ?`, a * b); }
+      }
+    } else {
+      // 5下：因數倍數、分數乘法、體積
+      switch (level) {
+        case 1: { const a = [12, 18, 24, 30, 36][rand(0, 4)]; return makeQ(`${a} 的因數有幾個？`, factorCount(a)); }
+        case 2: { return makeQ(`12 和 8 的最大公因數是？`, 4); }
+        case 3: { return makeQ(`2/3 × 3/4 = ?`, '1/2', false, ['1/2', '6/12', '5/7', '6/7']); }
+        case 4: { const s = rand(3, 8); return makeQ(`邊長 ${s} 公分的正方體體積是多少立方公分？`, s * s * s); }
+        case 5: { const a = rand(20, 40); return makeQ(`${a} 的 25% 是多少？`, a * 0.25, true); }
+      }
+    }
+  } else {
+    // 6年級
+    if (isUpper) {
+      // 6上：百分比、比例、圓
+      switch (level) {
+        case 1: { const b = rand(50, 200), p = [10, 20, 25, 50][rand(0, 3)]; return makeQ(`${b} 的 ${p}% 是多少？`, b * p / 100); }
+        case 2: { const a = rand(20, 80); return makeQ(`${a} 是 ${a * 4} 的百分之多少？`, 25); }
+        case 3: { const r = rand(3, 10); return makeQ(`半徑 ${r} 公分的圓周長約是多少公分？(π=3.14)`, +(2 * 3.14 * r).toFixed(2), true); }
+        case 4: { return makeQ(`若 a:b = 3:5，b = 20，則 a = ?`, 12); }
+        case 5: { const r = rand(2, 8); return makeQ(`半徑 ${r} 公分的圓面積約是多少平方公分？(π=3.14)`, +(3.14 * r * r).toFixed(2), true); }
+      }
+    } else {
+      // 6下：方程式、複雜應用、統計
+      switch (level) {
+        case 1: { const x = rand(5, 20), c = rand(5, 30); return makeQ(`若 x + ${c} = ${x + c}，x = ?`, x); }
+        case 2: { const x = rand(3, 12), m = rand(2, 6); return makeQ(`若 ${m}x = ${m * x}，x = ?`, x); }
+        case 3: { const x = rand(5, 15), m = rand(2, 5), c = rand(3, 10); return makeQ(`若 ${m}x + ${c} = ${m * x + c}，x = ?`, x); }
+        case 4: { return makeQ(`一商品原價 800 元，打 7 折是多少元？`, 560); }
+        case 5: { return makeQ(`一商品原價 1000 元，先打 8 折再 9 折，最後價格是？`, 720); }
+      }
+    }
+  }
+}
+
+function rand(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function factorCount(n) {
+  let count = 0;
+  for (let i = 1; i <= n; i++) if (n % i === 0) count++;
+  return count;
+}
+
+function makeMC(question, answer, isFloat = false, customOpts = null) {
+  if (customOpts) {
+    return { q: question, options: [...customOpts].sort(() => Math.random() - 0.5), correct: String(answer) };
+  }
+  const opts = new Set([String(answer)]);
+  const numAns = parseFloat(answer);
+  let attempts = 0;
+  while (opts.size < 4 && attempts < 30) {
+    attempts++;
+    const offset = (Math.floor(Math.random() * 9) + 1) * (Math.random() < 0.5 ? -1 : 1);
+    let wrong;
+    if (isFloat) {
+      wrong = +(numAns + offset * 0.1 * (Math.random() < 0.5 ? 1 : 10)).toFixed(2);
+    } else {
+      const scale = numAns > 100 ? 10 : 1;
+      wrong = numAns + offset * scale;
+    }
+    if (wrong >= 0 && wrong !== numAns) opts.add(String(wrong));
+  }
+  return { q: question, options: [...opts].sort(() => Math.random() - 0.5), correct: String(answer) };
+}
+
+function generateMathStage(grade, semester, level) {
+  const questions = [];
+  const seen = new Set();
+  let tries = 0;
+  while (questions.length < 10 && tries < 100) {
+    tries++;
+    const q = generateMathQuestion(grade, semester, level);
+    if (!seen.has(q.q)) {
+      seen.add(q.q);
+      questions.push(q);
+    }
+  }
+  // 補滿
+  while (questions.length < 10) {
+    questions.push(generateMathQuestion(grade, semester, level));
+  }
+  return questions;
+}
+
+// ============== 英文題庫（依年級+學期+難度） ==============
+const englishBank = {
+  '1-1': { // 一上
+    1: [
+      { q: '🍎 蘋果的英文是？', options: ['Apple', 'Banana', 'Cat', 'Dog'], correct: 'Apple' },
+      { q: '🐶 狗的英文是？', options: ['Cat', 'Dog', 'Pig', 'Cow'], correct: 'Dog' },
+      { q: '🐱 貓的英文是？', options: ['Cow', 'Cat', 'Car', 'Cap'], correct: 'Cat' },
+      { q: '🐟 魚的英文是？', options: ['Frog', 'Fish', 'Bird', 'Bear'], correct: 'Fish' },
+      { q: '🐦 鳥的英文是？', options: ['Bird', 'Bear', 'Bee', 'Boy'], correct: 'Bird' },
+      { q: 'A 開頭的水果？', options: ['Banana', 'Apple', 'Orange', 'Grape'], correct: 'Apple' },
+      { q: 'Hi 的中文意思？', options: ['再見', '嗨', '謝謝', '不客氣'], correct: '嗨' },
+      { q: 'Bye 的中文意思？', options: ['你好', '再見', '謝謝', '對不起'], correct: '再見' },
+      { q: '🐷 豬的英文是？', options: ['Pig', 'Pen', 'Pop', 'Pin'], correct: 'Pig' },
+      { q: '🐴 馬的英文是？', options: ['House', 'Horse', 'Mouse', 'Hours'], correct: 'Horse' },
+    ],
+    2: [
+      { q: '🍌 香蕉的英文是？', options: ['Apple', 'Banana', 'Orange', 'Grape'], correct: 'Banana' },
+      { q: '🚗 汽車的英文是？', options: ['Bus', 'Bike', 'Car', 'Boat'], correct: 'Car' },
+      { q: '紅色的英文是？', options: ['Red', 'Blue', 'Green', 'Yellow'], correct: 'Red' },
+      { q: '藍色的英文是？', options: ['Red', 'Blue', 'Green', 'Yellow'], correct: 'Blue' },
+      { q: '"一" 的英文是？', options: ['Two', 'One', 'Three', 'Four'], correct: 'One' },
+      { q: '"二" 的英文是？', options: ['Two', 'Three', 'One', 'Four'], correct: 'Two' },
+      { q: '"三" 的英文是？', options: ['Two', 'Three', 'Four', 'Five'], correct: 'Three' },
+      { q: '🐰 兔子的英文是？', options: ['Rat', 'Rabbit', 'Robot', 'Rain'], correct: 'Rabbit' },
+      { q: '🐘 大象的英文是？', options: ['Elephant', 'Egg', 'Eight', 'End'], correct: 'Elephant' },
+      { q: '✏️ 鉛筆的英文是？', options: ['Pen', 'Pencil', 'Paper', 'Pink'], correct: 'Pencil' },
+    ],
+    3: [
+      { q: '🌞 太陽的英文是？', options: ['Moon', 'Star', 'Sun', 'Sky'], correct: 'Sun' },
+      { q: '🌙 月亮的英文是？', options: ['Sun', 'Moon', 'Star', 'Cloud'], correct: 'Moon' },
+      { q: '⭐ 星星的英文是？', options: ['Star', 'Moon', 'Sun', 'Sky'], correct: 'Star' },
+      { q: '📖 書的英文是？', options: ['Pen', 'Bag', 'Book', 'Box'], correct: 'Book' },
+      { q: '🎒 書包的英文是？', options: ['Bag', 'Book', 'Box', 'Bus'], correct: 'Bag' },
+      { q: '"四" 的英文是？', options: ['Three', 'Four', 'Five', 'Six'], correct: 'Four' },
+      { q: '"五" 的英文是？', options: ['Four', 'Five', 'Six', 'Seven'], correct: 'Five' },
+      { q: '黃色的英文是？', options: ['Red', 'Yellow', 'Pink', 'Black'], correct: 'Yellow' },
+      { q: '綠色的英文是？', options: ['Green', 'Gray', 'Gold', 'Glass'], correct: 'Green' },
+      { q: '✏️ Pencil 的中文是？', options: ['筆', '鉛筆', '紙', '橡皮擦'], correct: '鉛筆' },
+    ],
+    4: [
+      { q: '老師的英文是？', options: ['Student', 'Teacher', 'Doctor', 'Driver'], correct: 'Teacher' },
+      { q: '學生的英文是？', options: ['Student', 'Teacher', 'Friend', 'Brother'], correct: 'Student' },
+      { q: '"我" 的英文是？', options: ['You', 'He', 'I', 'We'], correct: 'I' },
+      { q: '"你" 的英文是？', options: ['You', 'I', 'He', 'She'], correct: 'You' },
+      { q: '"他" 的英文是？', options: ['She', 'He', 'It', 'They'], correct: 'He' },
+      { q: '"她" 的英文是？', options: ['He', 'She', 'I', 'We'], correct: 'She' },
+      { q: '"六" 的英文是？', options: ['Five', 'Six', 'Seven', 'Eight'], correct: 'Six' },
+      { q: '"七" 的英文是？', options: ['Six', 'Seven', 'Eight', 'Nine'], correct: 'Seven' },
+      { q: '黑色的英文是？', options: ['Black', 'White', 'Brown', 'Pink'], correct: 'Black' },
+      { q: '白色的英文是？', options: ['White', 'Black', 'Wood', 'Wall'], correct: 'White' },
+    ],
+    5: [
+      { q: '"早安" 的英文是？', options: ['Good night', 'Good morning', 'Hello', 'Goodbye'], correct: 'Good morning' },
+      { q: '"晚安" 的英文是？', options: ['Good morning', 'Good night', 'Good afternoon', 'Good evening'], correct: 'Good night' },
+      { q: '"謝謝" 的英文是？', options: ['Sorry', 'Please', 'Thank you', 'Hello'], correct: 'Thank you' },
+      { q: '"對不起" 的英文是？', options: ['Sorry', 'Please', 'Thanks', 'Bye'], correct: 'Sorry' },
+      { q: '"八" 的英文是？', options: ['Six', 'Seven', 'Eight', 'Nine'], correct: 'Eight' },
+      { q: '"九" 的英文是？', options: ['Seven', 'Eight', 'Nine', 'Ten'], correct: 'Nine' },
+      { q: '"十" 的英文是？', options: ['Eight', 'Nine', 'Ten', 'Eleven'], correct: 'Ten' },
+      { q: '"How are you?" 意思？', options: ['你好嗎？', '你叫什麼？', '幾點了？', '再見'], correct: '你好嗎？' },
+      { q: '"What\'s your name?" 意思？', options: ['你幾歲？', '你叫什麼名字？', '你好嗎？', '你住哪？'], correct: '你叫什麼名字？' },
+      { q: '"I am fine." 意思？', options: ['我很好', '我很累', '我餓了', '我九歲'], correct: '我很好' },
+    ],
+  },
+  '1-2': { // 一下
+    1: [
+      { q: '👁️ 眼睛的英文是？', options: ['Ear', 'Eye', 'Nose', 'Mouth'], correct: 'Eye' },
+      { q: '👂 耳朵的英文是？', options: ['Eye', 'Ear', 'Nose', 'Hand'], correct: 'Ear' },
+      { q: '👃 鼻子的英文是？', options: ['Eye', 'Ear', 'Nose', 'Hand'], correct: 'Nose' },
+      { q: '👄 嘴巴的英文是？', options: ['Mouse', 'Mouth', 'Mom', 'Moon'], correct: 'Mouth' },
+      { q: '🖐️ 手的英文是？', options: ['Foot', 'Head', 'Hand', 'Hair'], correct: 'Hand' },
+      { q: '🦶 腳的英文是？', options: ['Foot', 'Food', 'Four', 'Free'], correct: 'Foot' },
+      { q: '🐭 老鼠的英文是？', options: ['Mouse', 'Mouth', 'Mom', 'Mat'], correct: 'Mouse' },
+      { q: '🐻 熊的英文是？', options: ['Bear', 'Bird', 'Bee', 'Boat'], correct: 'Bear' },
+      { q: '🐯 老虎的英文是？', options: ['Tiger', 'Time', 'Tea', 'Two'], correct: 'Tiger' },
+      { q: '🦁 獅子的英文是？', options: ['Lion', 'Long', 'Look', 'Love'], correct: 'Lion' },
+    ],
+    2: [
+      { q: '頭的英文是？', options: ['Hand', 'Head', 'Hair', 'Heat'], correct: 'Head' },
+      { q: '頭髮的英文是？', options: ['Head', 'Hair', 'Hat', 'Hand'], correct: 'Hair' },
+      { q: '橘色的英文是？', options: ['Orange', 'Olive', 'Onion', 'Owl'], correct: 'Orange' },
+      { q: '紫色的英文是？', options: ['Purple', 'Pink', 'Brown', 'Black'], correct: 'Purple' },
+      { q: '粉紅色的英文是？', options: ['Purple', 'Pink', 'Pig', 'Pen'], correct: 'Pink' },
+      { q: '"我有" 的英文？', options: ['I am', 'I have', 'I has', 'I is'], correct: 'I have' },
+      { q: '"這是" 的英文？', options: ['This is', 'These are', 'That is', 'It are'], correct: 'This is' },
+      { q: '"那是" 的英文？', options: ['This is', 'That is', 'There is', 'It is'], correct: 'That is' },
+      { q: '"水" 的英文是？', options: ['Milk', 'Juice', 'Water', 'Tea'], correct: 'Water' },
+      { q: '"牛奶" 的英文是？', options: ['Water', 'Milk', 'Tea', 'Juice'], correct: 'Milk' },
+    ],
+    3: [
+      { q: '小的英文是？', options: ['Big', 'Small', 'Tall', 'Short'], correct: 'Small' },
+      { q: '大的英文是？', options: ['Big', 'Small', 'Tiny', 'Long'], correct: 'Big' },
+      { q: '高的英文是？', options: ['Short', 'Tall', 'Tail', 'Tale'], correct: 'Tall' },
+      { q: '矮的英文是？', options: ['Short', 'Small', 'Slow', 'Sad'], correct: 'Short' },
+      { q: '快樂的英文是？', options: ['Sad', 'Happy', 'Angry', 'Tired'], correct: 'Happy' },
+      { q: '難過的英文是？', options: ['Sad', 'Mad', 'Bad', 'Dad'], correct: 'Sad' },
+      { q: '生氣的英文是？', options: ['Angry', 'Hungry', 'Sleepy', 'Funny'], correct: 'Angry' },
+      { q: '"果汁" 的英文是？', options: ['Juice', 'Just', 'June', 'Jump'], correct: 'Juice' },
+      { q: '"茶" 的英文是？', options: ['Tea', 'Two', 'Tree', 'Toy'], correct: 'Tea' },
+      { q: '咖啡的英文是？', options: ['Coffee', 'Candy', 'Cookie', 'Cola'], correct: 'Coffee' },
+    ],
+    4: [
+      { q: '學校的英文是？', options: ['Home', 'Park', 'School', 'Shop'], correct: 'School' },
+      { q: '家的英文是？', options: ['Home', 'House', 'Home/House 都可', 'Hotel'], correct: 'Home/House 都可' },
+      { q: '公園的英文是？', options: ['Park', 'Pond', 'Pool', 'Pet'], correct: 'Park' },
+      { q: '"我喜歡" 的英文？', options: ['I like', 'I likes', 'I am like', 'I do like'], correct: 'I like' },
+      { q: '"我不喜歡" 的英文？', options: ['I no like', 'I not like', 'I don\'t like', 'I am not like'], correct: 'I don\'t like' },
+      { q: '"是" 的英文（單數I）？', options: ['am', 'is', 'are', 'be'], correct: 'am' },
+      { q: '"是" 的英文（he/she/it）？', options: ['am', 'is', 'are', 'be'], correct: 'is' },
+      { q: '"是" 的英文（you/we/they）？', options: ['am', 'is', 'are', 'be'], correct: 'are' },
+      { q: '父親的英文是？', options: ['Father', 'Brother', 'Friend', 'Family'], correct: 'Father' },
+      { q: '母親的英文是？', options: ['Mother', 'Mom', 'Mother/Mom 都可', 'Mama'], correct: 'Mother/Mom 都可' },
+    ],
+    5: [
+      { q: '"How old are you?" 意思？', options: ['你叫什麼？', '你幾歲？', '你住哪？', '你好嗎？'], correct: '你幾歲？' },
+      { q: '"I am 7 years old." 意思？', options: ['我七歲', '現在七點', '我有七個', '七年前'], correct: '我七歲' },
+      { q: '哥哥/弟弟的英文？', options: ['Father', 'Brother', 'Sister', 'Friend'], correct: 'Brother' },
+      { q: '姐姐/妹妹的英文？', options: ['Mother', 'Sister', 'Brother', 'Friend'], correct: 'Sister' },
+      { q: '朋友的英文是？', options: ['Father', 'Friend', 'Family', 'Funny'], correct: 'Friend' },
+      { q: '"很高興認識你" 英文？', options: ['Hello there.', 'Nice to meet you.', 'Good morning.', 'See you.'], correct: 'Nice to meet you.' },
+      { q: '"再見" 的英文是？', options: ['Hello', 'Goodbye', 'Sorry', 'Please'], correct: 'Goodbye' },
+      { q: '"是的" 的英文是？', options: ['Yes', 'No', 'OK', 'Ya'], correct: 'Yes' },
+      { q: '"不是" 的英文是？', options: ['Yes', 'No', 'Not', 'Never'], correct: 'No' },
+      { q: '"請" 的英文是？', options: ['Please', 'Thanks', 'Sorry', 'Excuse'], correct: 'Please' },
+    ],
+  },
+  '2-1': { // 二上
+    1: [
+      { q: '"早餐" 英文？', options: ['Lunch', 'Dinner', 'Breakfast', 'Snack'], correct: 'Breakfast' },
+      { q: '"午餐" 英文？', options: ['Lunch', 'Dinner', 'Breakfast', 'Brunch'], correct: 'Lunch' },
+      { q: '"晚餐" 英文？', options: ['Dessert', 'Dinner', 'Donut', 'Drink'], correct: 'Dinner' },
+      { q: '"麵包" 英文？', options: ['Bread', 'Bird', 'Brown', 'Bear'], correct: 'Bread' },
+      { q: '"米飯" 英文？', options: ['Rice', 'Race', 'Rich', 'Ride'], correct: 'Rice' },
+      { q: '"麵" 英文？', options: ['Noodles', 'Needles', 'Nodes', 'Names'], correct: 'Noodles' },
+      { q: '"蛋" 英文？', options: ['Egg', 'End', 'Eight', 'Eat'], correct: 'Egg' },
+      { q: '"肉" 英文？', options: ['Meet', 'Meat', 'Mean', 'Mat'], correct: 'Meat' },
+      { q: '"魚（食物）" 英文？', options: ['Fish', 'Fresh', 'Five', 'First'], correct: 'Fish' },
+      { q: '"水果" 英文？', options: ['Food', 'Fruit', 'Free', 'Foot'], correct: 'Fruit' },
+    ],
+    2: [
+      { q: '11 的英文？', options: ['Eleven', 'Twelve', 'Thirteen', 'Ten'], correct: 'Eleven' },
+      { q: '12 的英文？', options: ['Twelve', 'Twenty', 'Eleven', 'Thirteen'], correct: 'Twelve' },
+      { q: '15 的英文？', options: ['Fifteen', 'Fifty', 'Fourteen', 'Fivteen'], correct: 'Fifteen' },
+      { q: '20 的英文？', options: ['Twelve', 'Twenty', 'Twoty', 'Two'], correct: 'Twenty' },
+      { q: '"鳥" 英文？', options: ['Bird', 'Bear', 'Bee', 'Boy'], correct: 'Bird' },
+      { q: '"蝴蝶" 英文？', options: ['Butter', 'Butterfly', 'Beautiful', 'Buffalo'], correct: 'Butterfly' },
+      { q: '"蜜蜂" 英文？', options: ['Bee', 'Bear', 'Bird', 'Bug'], correct: 'Bee' },
+      { q: '"螞蟻" 英文？', options: ['Ant', 'And', 'Aunt', 'Add'], correct: 'Ant' },
+      { q: '"蛇" 英文？', options: ['Snake', 'Snack', 'Snail', 'Snow'], correct: 'Snake' },
+      { q: '"猴子" 英文？', options: ['Mouse', 'Monkey', 'Money', 'Mommy'], correct: 'Monkey' },
+    ],
+    3: [
+      { q: '"跑" 英文？', options: ['Run', 'Sun', 'Fun', 'Bun'], correct: 'Run' },
+      { q: '"走" 英文？', options: ['Walk', 'Wake', 'Want', 'War'], correct: 'Walk' },
+      { q: '"跳" 英文？', options: ['Jump', 'Jumb', 'Jam', 'Joy'], correct: 'Jump' },
+      { q: '"游泳" 英文？', options: ['Swim', 'Sing', 'Smile', 'Swing'], correct: 'Swim' },
+      { q: '"飛" 英文？', options: ['Fly', 'Fry', 'Try', 'Cry'], correct: 'Fly' },
+      { q: '"唱歌" 英文？', options: ['Sing', 'Swing', 'Sit', 'Say'], correct: 'Sing' },
+      { q: '"跳舞" 英文？', options: ['Dance', 'Dose', 'Door', 'Down'], correct: 'Dance' },
+      { q: '"看" 英文？', options: ['Look', 'Like', 'Love', 'Live'], correct: 'Look' },
+      { q: '"聽" 英文？', options: ['Listen', 'Like', 'Live', 'Light'], correct: 'Listen' },
+      { q: '"睡覺" 英文？', options: ['Sleep', 'Sweep', 'Steep', 'Speak'], correct: 'Sleep' },
+    ],
+    4: [
+      { q: '"有...嗎？" 用什麼開頭？', options: ['Do you have...?', 'Are you have...?', 'Is you have...?', 'Have you...?'], correct: 'Do you have...?' },
+      { q: '"我有一隻貓" 英文？', options: ['I have a cat.', 'I has a cat.', 'I am a cat.', 'I a cat.'], correct: 'I have a cat.' },
+      { q: '"她有一本書" 英文？', options: ['She have a book.', 'She has a book.', 'She is a book.', 'She a book.'], correct: 'She has a book.' },
+      { q: '"我們" 英文？', options: ['Us', 'We', 'Our', 'Ours'], correct: 'We' },
+      { q: '"他們" 英文？', options: ['They', 'Them', 'Their', 'Those'], correct: 'They' },
+      { q: '"它" 英文？', options: ['It', 'Is', 'In', 'If'], correct: 'It' },
+      { q: '湯的英文？', options: ['Soup', 'Sour', 'Soap', 'Stop'], correct: 'Soup' },
+      { q: '蛋糕的英文？', options: ['Cake', 'Cape', 'Care', 'Cane'], correct: 'Cake' },
+      { q: '糖果的英文？', options: ['Candy', 'Curry', 'Carry', 'Caddy'], correct: 'Candy' },
+      { q: '冰淇淋的英文？', options: ['Ice cream', 'Ice tea', 'Iced coffee', 'Ice'], correct: 'Ice cream' },
+    ],
+    5: [
+      { q: '"This is my book." 意思？', options: ['這是我的書', '那是我的書', '這書好', '我有書'], correct: '這是我的書' },
+      { q: '"她是醫生" 英文？', options: ['He is a doctor.', 'She is a doctor.', 'She is doctor.', 'She a doctor.'], correct: 'She is a doctor.' },
+      { q: '"我喜歡蘋果" 英文？', options: ['I like apple.', 'I like apples.', 'I likes apples.', 'I am apple.'], correct: 'I like apples.' },
+      { q: '"你會說英文嗎？" 英文？', options: ['You speak English?', 'Do you speak English?', 'Are you English?', 'Is you speak English?'], correct: 'Do you speak English?' },
+      { q: '"什麼" 的英文？', options: ['What', 'Where', 'Who', 'When'], correct: 'What' },
+      { q: '"哪裡" 的英文？', options: ['What', 'Where', 'Who', 'When'], correct: 'Where' },
+      { q: '"誰" 的英文？', options: ['What', 'Where', 'Who', 'How'], correct: 'Who' },
+      { q: '"什麼時候" 的英文？', options: ['What', 'Where', 'Why', 'When'], correct: 'When' },
+      { q: '"為什麼" 的英文？', options: ['What', 'Why', 'Who', 'When'], correct: 'Why' },
+      { q: '"如何" 的英文？', options: ['How', 'Who', 'Why', 'What'], correct: 'How' },
+    ],
+  },
+  '2-2': { // 二下
+    1: [
+      { q: '星期一英文？', options: ['Sunday', 'Monday', 'Tuesday', 'Friday'], correct: 'Monday' },
+      { q: '星期二英文？', options: ['Tuesday', 'Thursday', 'Wednesday', 'Sunday'], correct: 'Tuesday' },
+      { q: '星期三英文？', options: ['Tuesday', 'Wednesday', 'Thursday', 'Sunday'], correct: 'Wednesday' },
+      { q: '星期四英文？', options: ['Tuesday', 'Thursday', 'Wednesday', 'Friday'], correct: 'Thursday' },
+      { q: '星期五英文？', options: ['Friday', 'Sunday', 'Saturday', 'Monday'], correct: 'Friday' },
+      { q: '星期六英文？', options: ['Saturday', 'Sunday', 'Friday', 'Monday'], correct: 'Saturday' },
+      { q: '星期日英文？', options: ['Sunday', 'Saturday', 'Monday', 'Friday'], correct: 'Sunday' },
+      { q: '"今天" 英文？', options: ['Tomorrow', 'Yesterday', 'Today', 'Tonight'], correct: 'Today' },
+      { q: '"明天" 英文？', options: ['Today', 'Tomorrow', 'Yesterday', 'Now'], correct: 'Tomorrow' },
+      { q: '"昨天" 英文？', options: ['Today', 'Tomorrow', 'Yesterday', 'Tonight'], correct: 'Yesterday' },
+    ],
+    2: [
+      { q: '一月英文？', options: ['January', 'February', 'July', 'June'], correct: 'January' },
+      { q: '二月英文？', options: ['February', 'January', 'March', 'May'], correct: 'February' },
+      { q: '三月英文？', options: ['March', 'May', 'April', 'August'], correct: 'March' },
+      { q: '四月英文？', options: ['April', 'August', 'March', 'May'], correct: 'April' },
+      { q: '五月英文？', options: ['May', 'March', 'April', 'July'], correct: 'May' },
+      { q: '六月英文？', options: ['June', 'July', 'January', 'May'], correct: 'June' },
+      { q: '七月英文？', options: ['July', 'June', 'January', 'May'], correct: 'July' },
+      { q: '春天英文？', options: ['Summer', 'Spring', 'Autumn', 'Winter'], correct: 'Spring' },
+      { q: '夏天英文？', options: ['Summer', 'Spring', 'Fall', 'Winter'], correct: 'Summer' },
+      { q: '冬天英文？', options: ['Winter', 'Spring', 'Summer', 'Autumn'], correct: 'Winter' },
+    ],
+    3: [
+      { q: '"晴天" 英文？', options: ['Sunny', 'Rainy', 'Cloudy', 'Snowy'], correct: 'Sunny' },
+      { q: '"雨天" 英文？', options: ['Sunny', 'Rainy', 'Cloudy', 'Windy'], correct: 'Rainy' },
+      { q: '"陰天" 英文？', options: ['Sunny', 'Cloudy', 'Cool', 'Cold'], correct: 'Cloudy' },
+      { q: '"下雪" 英文？', options: ['Snowy', 'Sunny', 'Showy', 'Salty'], correct: 'Snowy' },
+      { q: '"颳風" 英文？', options: ['Windy', 'Wind', 'Wild', 'Wonder'], correct: 'Windy' },
+      { q: '"熱的" 英文？', options: ['Hot', 'Hat', 'Hut', 'Hit'], correct: 'Hot' },
+      { q: '"冷的" 英文？', options: ['Cold', 'Cool', 'Could', 'Coal'], correct: 'Cold' },
+      { q: '"涼爽的" 英文？', options: ['Cold', 'Cool', 'Cute', 'Calm'], correct: 'Cool' },
+      { q: '"溫暖的" 英文？', options: ['Warm', 'Worm', 'Warn', 'Wash'], correct: 'Warm' },
+      { q: '"How is the weather?" 意思？', options: ['天氣如何？', '今天星期幾？', '你好嗎？', '幾點了？'], correct: '天氣如何？' },
+    ],
+    4: [
+      { q: '"What time is it?" 意思？', options: ['幾點了？', '你幾歲？', '今天星期幾？', '今天天氣？'], correct: '幾點了？' },
+      { q: '"It is 3 o\'clock." 意思？', options: ['現在三點', '三月三日', '我三歲', '第三個'], correct: '現在三點' },
+      { q: '"早上" 英文？', options: ['Morning', 'Noon', 'Night', 'Evening'], correct: 'Morning' },
+      { q: '"下午" 英文？', options: ['Morning', 'Afternoon', 'Evening', 'Night'], correct: 'Afternoon' },
+      { q: '"晚上" 英文？', options: ['Morning', 'Afternoon', 'Evening', 'Night/Evening'], correct: 'Night/Evening' },
+      { q: '"小時" 英文？', options: ['Hour', 'Minute', 'Second', 'Half'], correct: 'Hour' },
+      { q: '"分鐘" 英文？', options: ['Hour', 'Minute', 'Mountain', 'Money'], correct: 'Minute' },
+      { q: '"秒" 英文？', options: ['Sun', 'Second', 'Sand', 'Same'], correct: 'Second' },
+      { q: '"早" 英文？', options: ['Late', 'Early', 'Easy', 'Eat'], correct: 'Early' },
+      { q: '"晚" 英文？', options: ['Late', 'Lazy', 'Last', 'Less'], correct: 'Late' },
+    ],
+    5: [
+      { q: '"她正在唱歌" 英文？', options: ['She sing.', 'She is singing.', 'She sings songs.', 'She sang.'], correct: 'She is singing.' },
+      { q: '"我正在讀書" 英文？', options: ['I read.', 'I am reading.', 'I reading.', 'I is reading.'], correct: 'I am reading.' },
+      { q: '"他不喜歡魚" 英文？', options: ['He not like fish.', 'He don\'t like fish.', 'He doesn\'t like fish.', 'He no like fish.'], correct: 'He doesn\'t like fish.' },
+      { q: '"你有幾個？" 英文？', options: ['How much do you have?', 'How many do you have?', 'How are you?', 'What you have?'], correct: 'How many do you have?' },
+      { q: '"there are" 後接？', options: ['單數名詞', '複數名詞', '動詞', '形容詞'], correct: '複數名詞' },
+      { q: '"there is" 後接？', options: ['單數名詞', '複數名詞', '動詞', '形容詞'], correct: '單數名詞' },
+      { q: '"我的" 英文？', options: ['I', 'My', 'Me', 'Mine'], correct: 'My' },
+      { q: '"你的" 英文？', options: ['You', 'Your', 'Yours', 'Yor'], correct: 'Your' },
+      { q: '"他的" 英文？', options: ['He', 'His', 'Him', 'Hers'], correct: 'His' },
+      { q: '"她的" 英文？', options: ['She', 'Her', 'Hers', 'His'], correct: 'Her' },
+    ],
+  },
+  '3-1': { // 三上
+    1: [
+      { q: '"What\'s your name?" 意思？', options: ['你幾歲？', '你叫什麼名字？', '你好嗎？', '你住哪？'], correct: '你叫什麼名字？' },
+      { q: '"My name is Tom." 意思？', options: ['我叫 Tom', '他是 Tom', '湯姆是我朋友', '我有 Tom'], correct: '我叫 Tom' },
+      { q: '"Where are you from?" 意思？', options: ['你來自哪裡？', '你要去哪？', '你在哪？', '你住哪？'], correct: '你來自哪裡？' },
+      { q: '"我住在台中" 英文？', options: ['I live Taichung.', 'I live in Taichung.', 'I am Taichung.', 'I from Taichung.'], correct: 'I live in Taichung.' },
+      { q: '"我來自台灣" 英文？', options: ['I from Taiwan.', 'I am from Taiwan.', 'I come Taiwan.', 'I in Taiwan.'], correct: 'I am from Taiwan.' },
+      { q: '"國家" 英文？', options: ['City', 'Country', 'Town', 'Village'], correct: 'Country' },
+      { q: '"城市" 英文？', options: ['City', 'Country', 'Site', 'Side'], correct: 'City' },
+      { q: '"老師" 英文？', options: ['Teacher', 'Doctor', 'Driver', 'Cook'], correct: 'Teacher' },
+      { q: '"醫生" 英文？', options: ['Doctor', 'Teacher', 'Driver', 'Worker'], correct: 'Doctor' },
+      { q: '"司機" 英文？', options: ['Doctor', 'Driver', 'Designer', 'Director'], correct: 'Driver' },
+    ],
+    2: [
+      { q: '"廚師" 英文？', options: ['Cook', 'Cooker', 'Cake', 'Cool'], correct: 'Cook' },
+      { q: '"警察" 英文？', options: ['Police', 'Police officer', 'Polite', 'Pilot'], correct: 'Police officer' },
+      { q: '"消防員" 英文？', options: ['Firefighter', 'Fireman', 'Fire', 'Firework'], correct: 'Firefighter' },
+      { q: '"農夫" 英文？', options: ['Farmer', 'Farm', 'Father', 'Faster'], correct: 'Farmer' },
+      { q: '"護理師" 英文？', options: ['Nurse', 'Nice', 'Nose', 'Note'], correct: 'Nurse' },
+      { q: '"在...上面" 英文？', options: ['Under', 'On', 'In', 'Behind'], correct: 'On' },
+      { q: '"在...下面" 英文？', options: ['On', 'Above', 'Under', 'Next'], correct: 'Under' },
+      { q: '"在...裡面" 英文？', options: ['On', 'In', 'At', 'Of'], correct: 'In' },
+      { q: '"在...後面" 英文？', options: ['Behind', 'Before', 'Beside', 'Between'], correct: 'Behind' },
+      { q: '"在...旁邊" 英文？', options: ['Behind', 'Beside', 'Below', 'Between'], correct: 'Beside' },
+    ],
+    3: [
+      { q: '"客廳" 英文？', options: ['Living room', 'Kitchen', 'Bedroom', 'Bathroom'], correct: 'Living room' },
+      { q: '"廚房" 英文？', options: ['Kitchen', 'Living room', 'Bedroom', 'Garden'], correct: 'Kitchen' },
+      { q: '"臥室" 英文？', options: ['Bedroom', 'Bathroom', 'Kitchen', 'Living room'], correct: 'Bedroom' },
+      { q: '"浴室" 英文？', options: ['Bathroom', 'Bedroom', 'Kitchen', 'Garden'], correct: 'Bathroom' },
+      { q: '"花園" 英文？', options: ['Garden', 'Yard', 'Park', 'Forest'], correct: 'Garden' },
+      { q: '"桌子" 英文？', options: ['Table', 'Chair', 'Desk', 'Book'], correct: 'Table' },
+      { q: '"椅子" 英文？', options: ['Chair', 'Cheer', 'Cherry', 'Cheap'], correct: 'Chair' },
+      { q: '"床" 英文？', options: ['Bed', 'Bad', 'Beg', 'Bee'], correct: 'Bed' },
+      { q: '"門" 英文？', options: ['Door', 'Window', 'Wall', 'Floor'], correct: 'Door' },
+      { q: '"窗戶" 英文？', options: ['Window', 'Wind', 'Wood', 'Wood'], correct: 'Window' },
+    ],
+    4: [
+      { q: '"打籃球" 英文？', options: ['Play basketball', 'Play baseball', 'Play piano', 'Play ball'], correct: 'Play basketball' },
+      { q: '"打棒球" 英文？', options: ['Play basketball', 'Play baseball', 'Play ball', 'Play game'], correct: 'Play baseball' },
+      { q: '"踢足球" 英文？', options: ['Play soccer', 'Play basketball', 'Kick ball', 'Play foot'], correct: 'Play soccer' },
+      { q: '"游泳" 英文？', options: ['Swim', 'Swing', 'Sweep', 'Skate'], correct: 'Swim' },
+      { q: '"騎腳踏車" 英文？', options: ['Ride a bike', 'Ride a horse', 'Drive a bike', 'Run a bike'], correct: 'Ride a bike' },
+      { q: '"看電視" 英文？', options: ['Watch TV', 'Look TV', 'See TV', 'Read TV'], correct: 'Watch TV' },
+      { q: '"看書" 英文？', options: ['Watch a book', 'Read a book', 'See a book', 'Look book'], correct: 'Read a book' },
+      { q: '"聽音樂" 英文？', options: ['Listen music', 'Listen to music', 'Hear music', 'Look music'], correct: 'Listen to music' },
+      { q: '"做功課" 英文？', options: ['Do homework', 'Make homework', 'Do work', 'Take homework'], correct: 'Do homework' },
+      { q: '"煮飯" 英文？', options: ['Cook food', 'Make food', 'Do food', 'Take food'], correct: 'Cook food' },
+    ],
+    5: [
+      { q: '"我每天讀書" 英文？', options: ['I read book everyday.', 'I read books every day.', 'I am reading books.', 'I reading books.'], correct: 'I read books every day.' },
+      { q: '"她常常游泳" 英文？', options: ['She often swims.', 'She often swim.', 'She swim often.', 'She is often swim.'], correct: 'She often swims.' },
+      { q: '"他從不遲到" 英文？', options: ['He never late.', 'He is never late.', 'He never is late.', 'He is late never.'], correct: 'He is never late.' },
+      { q: '"總是" 英文？', options: ['Always', 'Often', 'Never', 'Sometimes'], correct: 'Always' },
+      { q: '"有時" 英文？', options: ['Always', 'Sometimes', 'Often', 'Usually'], correct: 'Sometimes' },
+      { q: '"從不" 英文？', options: ['Always', 'Never', 'Often', 'Sometimes'], correct: 'Never' },
+      { q: '"通常" 英文？', options: ['Usually', 'Always', 'Never', 'Often'], correct: 'Usually' },
+      { q: '"What does he do?" 意思？', options: ['他做什麼工作？', '他在哪？', '他幾歲？', '他要什麼？'], correct: '他做什麼工作？' },
+      { q: '"How often do you...?" 意思？', options: ['你多常...？', '你怎麼...？', '你哪裡...？', '你為何...？'], correct: '你多常...？' },
+      { q: '"Where does she live?" 意思？', options: ['她做什麼？', '她住哪？', '她幾歲？', '她是誰？'], correct: '她住哪？' },
+    ],
+  },
+  '3-2': { // 三下
+    1: [
+      { q: '"高的" 英文？', options: ['Short', 'Tall', 'Tiny', 'Big'], correct: 'Tall' },
+      { q: '"矮的" 英文？', options: ['Tall', 'Short', 'Small', 'Slow'], correct: 'Short' },
+      { q: '"美麗的" 英文？', options: ['Ugly', 'Beautiful', 'Handsome', 'Cute'], correct: 'Beautiful' },
+      { q: '"可愛的" 英文？', options: ['Cute', 'Cool', 'Cake', 'Cup'], correct: 'Cute' },
+      { q: '"年輕的" 英文？', options: ['Old', 'Young', 'New', 'Year'], correct: 'Young' },
+      { q: '"年老的" 英文？', options: ['Young', 'Old', 'New', 'Yes'], correct: 'Old' },
+      { q: '"新的" 英文？', options: ['New', 'Now', 'Net', 'Need'], correct: 'New' },
+      { q: '"舊的" 英文？', options: ['New', 'Old', 'Bad', 'Big'], correct: 'Old' },
+      { q: '"快的" 英文？', options: ['Fast', 'Slow', 'Far', 'First'], correct: 'Fast' },
+      { q: '"慢的" 英文？', options: ['Slow', 'Sleep', 'Slim', 'Small'], correct: 'Slow' },
+    ],
+    2: [
+      { q: '"How much?" 意思？', options: ['多少錢？', '幾個？', '哪裡？', '為什麼？'], correct: '多少錢？' },
+      { q: '"How many?" 意思？', options: ['多少錢？', '多少個？', '怎麼樣？', '哪一個？'], correct: '多少個？' },
+      { q: '"It\'s 50 dollars." 意思？', options: ['五十元', '五十歲', '五點十分', '第五十'], correct: '五十元' },
+      { q: '30 的英文？', options: ['Thirteen', 'Thirty', 'Thrid', 'Three'], correct: 'Thirty' },
+      { q: '40 的英文？', options: ['Fourteen', 'Forty', 'Forteen', 'Four'], correct: 'Forty' },
+      { q: '50 的英文？', options: ['Fivty', 'Fifty', 'Fifteen', 'Five'], correct: 'Fifty' },
+      { q: '100 的英文？', options: ['One hundred', 'One thousand', 'Ten', 'Hundred'], correct: 'One hundred' },
+      { q: '"便宜的" 英文？', options: ['Cheap', 'Cheep', 'Cheer', 'Chair'], correct: 'Cheap' },
+      { q: '"貴的" 英文？', options: ['Expensive', 'Expand', 'Express', 'Exit'], correct: 'Expensive' },
+      { q: '"錢" 英文？', options: ['Money', 'Monkey', 'Mommy', 'Many'], correct: 'Money' },
+    ],
+    3: [
+      { q: '"我喜歡藍色" 英文？', options: ['I like blue color.', 'I like blue.', 'I like the blue.', 'My color blue.'], correct: 'I like blue.' },
+      { q: '"她有很多書" 英文？', options: ['She has many book.', 'She have many books.', 'She has many books.', 'She is many books.'], correct: 'She has many books.' },
+      { q: '"很多" 用於可數名詞？', options: ['Much', 'Many', 'A lot', 'Some'], correct: 'Many' },
+      { q: '"很多" 用於不可數名詞？', options: ['Many', 'Much', 'Few', 'Several'], correct: 'Much' },
+      { q: '"一些" 英文（肯定句）？', options: ['Some', 'Any', 'No', 'None'], correct: 'Some' },
+      { q: '"任何" 英文（疑問/否定）？', options: ['Some', 'Any', 'Many', 'Much'], correct: 'Any' },
+      { q: '"幾個" 英文？', options: ['Few', 'Many', 'Some', 'Any'], correct: 'Few' },
+      { q: '"所有的" 英文？', options: ['All', 'Any', 'None', 'Some'], correct: 'All' },
+      { q: '"一個都沒有" 英文？', options: ['No', 'None', 'Not', 'Never'], correct: 'None' },
+      { q: '"每一個" 英文？', options: ['Every', 'Each', 'All', 'Each/Every 都可'], correct: 'Each/Every 都可' },
+    ],
+    4: [
+      { q: '"我們去公園吧" 英文？', options: ['Let\'s go to the park.', 'We go to park.', 'Go park we.', 'Let go park.'], correct: 'Let\'s go to the park.' },
+      { q: '"她正在跳舞" 英文？', options: ['She dance.', 'She is dancing.', 'She danced.', 'She dances.'], correct: 'She is dancing.' },
+      { q: '"他們正在玩" 英文？', options: ['They play.', 'They playing.', 'They are playing.', 'They is playing.'], correct: 'They are playing.' },
+      { q: '"-ing" 用於什麼時態？', options: ['過去式', '現在進行式', '未來式', '完成式'], correct: '現在進行式' },
+      { q: '"can" 後接？', options: ['原形動詞', '動詞 ing', '過去式', '名詞'], correct: '原形動詞' },
+      { q: '"她會跳舞" 英文？', options: ['She can dance.', 'She can dances.', 'She can dancing.', 'She cans dance.'], correct: 'She can dance.' },
+      { q: '"我不會游泳" 英文？', options: ['I no swim.', 'I don\'t can swim.', 'I can\'t swim.', 'I cannot swimming.'], correct: 'I can\'t swim.' },
+      { q: '"你會說中文嗎？" 英文？', options: ['You can speak Chinese?', 'Can you speak Chinese?', 'Do you can speak Chinese?', 'Are you speak Chinese?'], correct: 'Can you speak Chinese?' },
+      { q: '"必須" 英文？', options: ['Can', 'Must', 'May', 'Will'], correct: 'Must' },
+      { q: '"也許" 英文？', options: ['Can', 'Must', 'May', 'Will'], correct: 'May' },
+    ],
+    5: [
+      { q: '"我比他高" 英文？', options: ['I tall than him.', 'I am taller than him.', 'I am tall him.', 'I am most tall.'], correct: 'I am taller than him.' },
+      { q: '"最大的" 英文？', options: ['Bigger', 'Biggest', 'Big', 'More big'], correct: 'Biggest' },
+      { q: '比較級加什麼？', options: ['-er', '-est', '-ing', '-ed'], correct: '-er' },
+      { q: '最高級加什麼？', options: ['-er', '-est', '-ing', 'most'], correct: '-est' },
+      { q: '"better" 是哪個字的比較級？', options: ['Bad', 'Good', 'Big', 'Bed'], correct: 'Good' },
+      { q: '"worse" 是哪個字的比較級？', options: ['Bad', 'Good', 'Bag', 'Big'], correct: 'Bad' },
+      { q: '"best" 是哪個字的最高級？', options: ['Bad', 'Good', 'Big', 'Best'], correct: 'Good' },
+      { q: '"more interesting" 是？', options: ['原級', '比較級', '最高級', '進行式'], correct: '比較級' },
+      { q: '"as ... as" 表示？', options: ['比較', '一樣', '最高', '相反'], correct: '一樣' },
+      { q: '"different from" 意思？', options: ['和...一樣', '和...不同', '比...好', '比...差'], correct: '和...不同' },
+    ],
+  },
+  '4-1': { // 四上
+    1: [
+      { q: '"yesterday" 搭配什麼時態？', options: ['現在式', '過去式', '未來式', '進行式'], correct: '過去式' },
+      { q: '"go" 過去式？', options: ['goed', 'gone', 'went', 'going'], correct: 'went' },
+      { q: '"eat" 過去式？', options: ['eated', 'ate', 'eaten', 'eating'], correct: 'ate' },
+      { q: '"see" 過去式？', options: ['seed', 'saw', 'seen', 'sees'], correct: 'saw' },
+      { q: '"do" 過去式？', options: ['doed', 'did', 'done', 'does'], correct: 'did' },
+      { q: '"have" 過去式？', options: ['haved', 'has', 'had', 'having'], correct: 'had' },
+      { q: '"play" 過去式？', options: ['played', 'plaied', 'plays', 'playing'], correct: 'played' },
+      { q: '"study" 過去式？', options: ['studyed', 'studied', 'studies', 'studing'], correct: 'studied' },
+      { q: '"stop" 過去式？', options: ['stoped', 'stopped', 'stops', 'stoping'], correct: 'stopped' },
+      { q: '"is/am" 過去式？', options: ['was', 'were', 'be', 'been'], correct: 'was' },
+    ],
+    2: [
+      { q: '"are" 過去式？', options: ['was', 'were', 'be', 'been'], correct: 'were' },
+      { q: '"yesterday" 中文？', options: ['今天', '昨天', '明天', '前天'], correct: '昨天' },
+      { q: '"last week" 中文？', options: ['這週', '上週', '下週', '本週'], correct: '上週' },
+      { q: '"ago" 中文？', options: ['以後', '以前', '現在', '正在'], correct: '以前' },
+      { q: '"我昨天去學校" 英文？', options: ['I go to school yesterday.', 'I went to school yesterday.', 'I am go to school.', 'I goes school yesterday.'], correct: 'I went to school yesterday.' },
+      { q: '"她昨天看電影" 英文？', options: ['She watch movie yesterday.', 'She watches movie.', 'She watched a movie yesterday.', 'She is watching movie.'], correct: 'She watched a movie yesterday.' },
+      { q: '"他們上週玩遊戲" 英文？', options: ['They play games last week.', 'They played games last week.', 'They playing games.', 'They will play games.'], correct: 'They played games last week.' },
+      { q: '"buy" 過去式？', options: ['buyed', 'bought', 'buy', 'buys'], correct: 'bought' },
+      { q: '"come" 過去式？', options: ['comed', 'came', 'come', 'coming'], correct: 'came' },
+      { q: '"get" 過去式？', options: ['geted', 'got', 'getted', 'gets'], correct: 'got' },
+    ],
+    3: [
+      { q: '"我有一隻狗" 英文？', options: ['I have a dog.', 'I has a dog.', 'I am a dog.', 'I like dog.'], correct: 'I have a dog.' },
+      { q: '"我們有兩個朋友" 英文？', options: ['We have two friend.', 'We has two friends.', 'We have two friends.', 'We are two friends.'], correct: 'We have two friends.' },
+      { q: '"What did you do?" 意思？', options: ['你做什麼？', '你做了什麼？', '你要做什麼？', '你會做什麼？'], correct: '你做了什麼？' },
+      { q: '"Did you...?" 是哪個時態的疑問句？', options: ['現在式', '現在進行式', '過去式', '未來式'], correct: '過去式' },
+      { q: '"我沒去學校" 英文？', options: ['I don\'t go to school.', 'I didn\'t go to school.', 'I no went to school.', 'I not go to school.'], correct: 'I didn\'t go to school.' },
+      { q: '"你昨天去哪裡？" 英文？', options: ['Where do you go yesterday?', 'Where you went yesterday?', 'Where did you go yesterday?', 'Where you go?'], correct: 'Where did you go yesterday?' },
+      { q: '"write" 過去式？', options: ['writed', 'wrote', 'writed', 'writing'], correct: 'wrote' },
+      { q: '"read" 過去式？', options: ['readed', 'read', 'reads', 'reading'], correct: 'read' },
+      { q: '"sing" 過去式？', options: ['singed', 'sang', 'sung', 'singing'], correct: 'sang' },
+      { q: '"swim" 過去式？', options: ['swimed', 'swam', 'swum', 'swimming'], correct: 'swam' },
+    ],
+    4: [
+      { q: '"jump" 現在分詞？', options: ['jumped', 'jumping', 'jumps', 'jump'], correct: 'jumping' },
+      { q: '"run" 現在分詞？', options: ['runed', 'runned', 'running', 'runing'], correct: 'running' },
+      { q: '"swim" 現在分詞？', options: ['swiming', 'swimming', 'swam', 'swims'], correct: 'swimming' },
+      { q: '"她正在做什麼？" 英文？', options: ['What she does?', 'What does she doing?', 'What is she doing?', 'What she doing?'], correct: 'What is she doing?' },
+      { q: '"他們在踢足球" 英文？', options: ['They play soccer.', 'They are playing soccer.', 'They played soccer.', 'They are play soccer.'], correct: 'They are playing soccer.' },
+      { q: '"now" 搭配什麼時態？', options: ['過去式', '未來式', '現在進行式', '現在完成式'], correct: '現在進行式' },
+      { q: '"right now" 中文？', options: ['正確的', '此時此刻', '右邊', '對的'], correct: '此時此刻' },
+      { q: '"at the moment" 中文？', options: ['立刻', '此刻', '一會兒', '永遠'], correct: '此刻' },
+      { q: '"她會彈鋼琴" 英文？', options: ['She can plays piano.', 'She can play the piano.', 'She play piano.', 'She is piano.'], correct: 'She can play the piano.' },
+      { q: '"我會說一點英文" 英文？', options: ['I speak little English.', 'I can speak little English.', 'I can speak a little English.', 'I am little English.'], correct: 'I can speak a little English.' },
+    ],
+    5: [
+      { q: '"Where do you live?" 意思？', options: ['你住哪裡？', '你去哪裡？', '你來自哪？', '你是誰？'], correct: '你住哪裡？' },
+      { q: '"醫院" 英文？', options: ['Hospital', 'Hotel', 'House', 'Office'], correct: 'Hospital' },
+      { q: '"飯店" 英文？', options: ['Hospital', 'Hotel', 'Hot', 'Hotel'], correct: 'Hotel' },
+      { q: '"超市" 英文？', options: ['Supermarket', 'Super', 'Shop', 'Store'], correct: 'Supermarket' },
+      { q: '"郵局" 英文？', options: ['Post office', 'Police', 'Bank', 'Office'], correct: 'Post office' },
+      { q: '"銀行" 英文？', options: ['Bank', 'Bench', 'Bench', 'Branch'], correct: 'Bank' },
+      { q: '"圖書館" 英文？', options: ['Library', 'Liberty', 'Lab', 'Lobby'], correct: 'Library' },
+      { q: '"博物館" 英文？', options: ['Museum', 'Music', 'Movie', 'Museum'], correct: 'Museum' },
+      { q: '"教堂" 英文？', options: ['Church', 'Chair', 'Choose', 'Charge'], correct: 'Church' },
+      { q: '"電影院" 英文？', options: ['Movie theater', 'Movie shop', 'Movie store', 'Cinema/Movie theater'], correct: 'Cinema/Movie theater' },
+    ],
+  },
+  '4-2': { // 四下
+    1: [
+      { q: '"未來式" 英文用什麼？', options: ['will + 原形', 'is + ing', 'was + ing', 'have + 過去分詞'], correct: 'will + 原形' },
+      { q: '"我明天會去" 英文？', options: ['I go tomorrow.', 'I will go tomorrow.', 'I am go tomorrow.', 'I went tomorrow.'], correct: 'I will go tomorrow.' },
+      { q: '"她下週會來" 英文？', options: ['She come next week.', 'She will come next week.', 'She comes next week.', 'She came next week.'], correct: 'She will come next week.' },
+      { q: '"tomorrow" 中文？', options: ['今天', '昨天', '明天', '後天'], correct: '明天' },
+      { q: '"next week" 中文？', options: ['上週', '本週', '下週', '每週'], correct: '下週' },
+      { q: '"我不會去" 英文？', options: ['I won\'t go.', 'I will not going.', 'I no go.', 'I am not go.'], correct: 'I won\'t go.' },
+      { q: '"你會幫我嗎？" 英文？', options: ['Will you help me?', 'You help me?', 'Do you help me?', 'Are you help me?'], correct: 'Will you help me?' },
+      { q: '"going to" 表示？', options: ['過去式', '計畫中的未來', '進行式', '完成式'], correct: '計畫中的未來' },
+      { q: '"我打算去美國" 英文？', options: ['I will go America.', 'I am going to America.', 'I go America.', 'I am go to America.'], correct: 'I am going to America.' },
+      { q: '"soon" 中文？', options: ['很快', '太陽', '湯', '兒子'], correct: '很快' },
+    ],
+    2: [
+      { q: '"頭" 英文？', options: ['Hand', 'Head', 'Hair', 'Heart'], correct: 'Head' },
+      { q: '"心" 英文？', options: ['Hand', 'Heart', 'Hard', 'Heat'], correct: 'Heart' },
+      { q: '"頭痛" 英文？', options: ['Headache', 'Toothache', 'Stomachache', 'Backache'], correct: 'Headache' },
+      { q: '"牙痛" 英文？', options: ['Headache', 'Toothache', 'Stomachache', 'Earache'], correct: 'Toothache' },
+      { q: '"肚子痛" 英文？', options: ['Headache', 'Stomachache', 'Toothache', 'Backache'], correct: 'Stomachache' },
+      { q: '"感冒" 英文？', options: ['Cold', 'Cool', 'Cough', 'Care'], correct: 'Cold' },
+      { q: '"咳嗽" 英文？', options: ['Cold', 'Cough', 'Care', 'Cool'], correct: 'Cough' },
+      { q: '"發燒" 英文？', options: ['Fever', 'Free', 'Far', 'Few'], correct: 'Fever' },
+      { q: '"我不舒服" 英文？', options: ['I am not well.', 'I no good.', 'I not feel good.', 'I no comfortable.'], correct: 'I am not well.' },
+      { q: '"看醫生" 英文？', options: ['See a doctor', 'Look doctor', 'Watch a doctor', 'Read doctor'], correct: 'See a doctor' },
+    ],
+    3: [
+      { q: '"穿（衣服）" 英文？', options: ['Wear', 'Where', 'Were', 'War'], correct: 'Wear' },
+      { q: '"襯衫" 英文？', options: ['Shirt', 'Short', 'Shoot', 'Shore'], correct: 'Shirt' },
+      { q: '"裙子" 英文？', options: ['Skirt', 'Shirt', 'Skate', 'Score'], correct: 'Skirt' },
+      { q: '"褲子" 英文？', options: ['Pants', 'Pen', 'Pet', 'Pin'], correct: 'Pants' },
+      { q: '"鞋子" 英文？', options: ['Shoes', 'Socks', 'Shorts', 'Shop'], correct: 'Shoes' },
+      { q: '"襪子" 英文？', options: ['Sock', 'Socks', 'Shocks', 'Shock'], correct: 'Socks' },
+      { q: '"帽子" 英文？', options: ['Hat', 'Hot', 'Hut', 'Hip'], correct: 'Hat' },
+      { q: '"夾克" 英文？', options: ['Jacket', 'Jocket', 'Jack', 'Junk'], correct: 'Jacket' },
+      { q: '"毛衣" 英文？', options: ['Sweater', 'Sweet', 'Swearer', 'Sweater'], correct: 'Sweater' },
+      { q: '"洋裝" 英文？', options: ['Dress', 'Dust', 'Deer', 'Drink'], correct: 'Dress' },
+    ],
+    4: [
+      { q: '"我比她高" 英文？', options: ['I tall her.', 'I taller her.', 'I am taller than her.', 'I taller than her.'], correct: 'I am taller than her.' },
+      { q: '"他是最聰明的" 英文？', options: ['He is smart.', 'He is smarter.', 'He is the smartest.', 'He smart most.'], correct: 'He is the smartest.' },
+      { q: '"good" 比較級？', options: ['gooder', 'better', 'best', 'goodder'], correct: 'better' },
+      { q: '"good" 最高級？', options: ['gooder', 'better', 'best', 'most good'], correct: 'best' },
+      { q: '"bad" 比較級？', options: ['bader', 'worse', 'worst', 'most bad'], correct: 'worse' },
+      { q: '"bad" 最高級？', options: ['bader', 'worse', 'worst', 'most bad'], correct: 'worst' },
+      { q: '"big" 比較級？', options: ['bigger', 'biger', 'more big', 'biggest'], correct: 'bigger' },
+      { q: '"long" 最高級？', options: ['longer', 'longest', 'most long', 'longger'], correct: 'longest' },
+      { q: '"happy" 比較級？', options: ['happyer', 'happier', 'more happy', 'happiest'], correct: 'happier' },
+      { q: '"interesting" 比較級？', options: ['interestinger', 'more interesting', 'most interesting', 'interesting'], correct: 'more interesting' },
+    ],
+    5: [
+      { q: '"there are" 後接什麼？', options: ['單數名詞', '複數名詞', '動詞', '不可數名詞'], correct: '複數名詞' },
+      { q: '"there is" 後接什麼？', options: ['複數名詞', '單數名詞或不可數名詞', '動詞', '形容詞'], correct: '單數名詞或不可數名詞' },
+      { q: '"動物園裡有許多動物" 英文？', options: ['There is many animals in zoo.', 'There are many animals in the zoo.', 'There has many animals.', 'Zoo many animals.'], correct: 'There are many animals in the zoo.' },
+      { q: '"桌上有一本書" 英文？', options: ['There is a book on the table.', 'There are a book on table.', 'There has book on table.', 'A book on the table.'], correct: 'There is a book on the table.' },
+      { q: '"information" 是？', options: ['可數', '不可數', '動詞', '形容詞'], correct: '不可數' },
+      { q: '"water" 是？', options: ['可數', '不可數', '動詞', '形容詞'], correct: '不可數' },
+      { q: '"a piece of paper" 中文？', options: ['一張紙', '一支筆', '一本書', '一個東西'], correct: '一張紙' },
+      { q: '"a cup of tea" 中文？', options: ['一杯茶', '一壺茶', '一杯水', '一杯咖啡'], correct: '一杯茶' },
+      { q: '"a glass of water" 中文？', options: ['一壺水', '一杯水', '一桶水', '一瓶水'], correct: '一杯水' },
+      { q: '"a bottle of milk" 中文？', options: ['一杯牛奶', '一瓶牛奶', '一壺牛奶', '一盒牛奶'], correct: '一瓶牛奶' },
+    ],
+  },
+  '5-1': { // 五上
+    1: [
+      { q: '"have/has" 過去分詞？', options: ['have', 'has', 'had', 'having'], correct: 'had' },
+      { q: '"see" 過去分詞？', options: ['saw', 'seen', 'seeing', 'sees'], correct: 'seen' },
+      { q: '"go" 過去分詞？', options: ['went', 'gone', 'goed', 'going'], correct: 'gone' },
+      { q: '"do" 過去分詞？', options: ['did', 'done', 'doing', 'does'], correct: 'done' },
+      { q: '"eat" 過去分詞？', options: ['ate', 'eaten', 'eat', 'eating'], correct: 'eaten' },
+      { q: '"write" 過去分詞？', options: ['wrote', 'written', 'wrote', 'writing'], correct: 'written' },
+      { q: '"speak" 過去分詞？', options: ['spoke', 'spoken', 'speaking', 'speaked'], correct: 'spoken' },
+      { q: '"take" 過去分詞？', options: ['took', 'taken', 'taking', 'takes'], correct: 'taken' },
+      { q: '"buy" 過去分詞？', options: ['bought', 'buyed', 'buy', 'buying'], correct: 'bought' },
+      { q: '"break" 過去分詞？', options: ['broke', 'broken', 'breaking', 'breaks'], correct: 'broken' },
+    ],
+    2: [
+      { q: '"have been" 用什麼時態？', options: ['過去式', '現在完成式', '未來式', '進行式'], correct: '現在完成式' },
+      { q: '"我已經吃晚餐了" 英文？', options: ['I eat dinner.', 'I ate dinner.', 'I have eaten dinner.', 'I am eating dinner.'], correct: 'I have eaten dinner.' },
+      { q: '"她從來沒去過" 英文？', options: ['She not go there.', 'She didn\'t go.', 'She has never been there.', 'She no there.'], correct: 'She has never been there.' },
+      { q: '"already" 中文？', options: ['還沒', '已經', '從未', '剛才'], correct: '已經' },
+      { q: '"yet" 通常用於？', options: ['肯定句', '否定/疑問句', '感嘆句', '命令句'], correct: '否定/疑問句' },
+      { q: '"never" 中文？', options: ['總是', '經常', '從不', '通常'], correct: '從不' },
+      { q: '"ever" 中文？', options: ['永不', '曾經', '永遠', '常常'], correct: '曾經' },
+      { q: '"just" 在現在完成式中？', options: ['公正', '剛剛', '只有', '正確'], correct: '剛剛' },
+      { q: '"since" 後接？', options: ['時間點', '時間段', '地點', '人物'], correct: '時間點' },
+      { q: '"for" 後接？', options: ['時間點', '時間段', '地點', '人物'], correct: '時間段' },
+    ],
+    3: [
+      { q: '"被動語態" 結構？', options: ['be + 過去分詞', 'be + ing', 'have + 過去分詞', 'will + 原形'], correct: 'be + 過去分詞' },
+      { q: '"蛋糕是媽媽做的" 英文？', options: ['Mom makes the cake.', 'The cake is made by mom.', 'The cake makes by mom.', 'Mom is the cake.'], correct: 'The cake is made by mom.' },
+      { q: '"by" 在被動句中表示？', options: ['在...旁邊', '被...', '經由', '直到'], correct: '被...' },
+      { q: '"This book ___ written by him." 填？', options: ['is', 'are', 'was', 'were'], correct: 'was' },
+      { q: '"Many books ___ read." 填？', options: ['is', 'are', 'has', 'have'], correct: 'are' },
+      { q: '"clean" 過去分詞？', options: ['cleaned', 'clean', 'cleaning', 'cleans'], correct: 'cleaned' },
+      { q: '"build" 過去分詞？', options: ['builded', 'built', 'building', 'builds'], correct: 'built' },
+      { q: '"find" 過去分詞？', options: ['finded', 'found', 'finding', 'finds'], correct: 'found' },
+      { q: '"send" 過去分詞？', options: ['sended', 'sent', 'sending', 'sends'], correct: 'sent' },
+      { q: '"teach" 過去分詞？', options: ['teached', 'taught', 'teaching', 'teaches'], correct: 'taught' },
+    ],
+    4: [
+      { q: '"關係代名詞" who 用於？', options: ['物', '人', '地點', '時間'], correct: '人' },
+      { q: '"關係代名詞" which 用於？', options: ['人', '物', '地點', '時間'], correct: '物' },
+      { q: '"那個正在跑步的男孩是我哥" 英文？', options: ['The boy run is my brother.', 'The boy who is running is my brother.', 'The boy run my brother.', 'The boy running my brother.'], correct: 'The boy who is running is my brother.' },
+      { q: '"我喜歡的書" 英文？', options: ['The book I like.', 'The book which I like.', 'The book that I like.', '以上皆可'], correct: '以上皆可' },
+      { q: '"although" 中文？', options: ['因為', '雖然', '所以', '當'], correct: '雖然' },
+      { q: '"because" 中文？', options: ['雖然', '因為', '但是', '如果'], correct: '因為' },
+      { q: '"however" 中文？', options: ['因此', '然而', '所以', '總之'], correct: '然而' },
+      { q: '"therefore" 中文？', options: ['但是', '因此', '雖然', '甚至'], correct: '因此' },
+      { q: '"if" 中文？', options: ['是', '如果', '何時', '為何'], correct: '如果' },
+      { q: '"when" 中文（連接詞）？', options: ['什麼時候', '當...時候', '哪裡', '為什麼'], correct: '當...時候' },
+    ],
+    5: [
+      { q: '"environment" 中文？', options: ['環境', '事件', '經驗', '娛樂'], correct: '環境' },
+      { q: '"important" 中文？', options: ['困難的', '重要的', '簡單的', '可能的'], correct: '重要的' },
+      { q: '"difficult" 中文？', options: ['困難的', '簡單的', '不同的', '快樂的'], correct: '困難的' },
+      { q: '"different" 中文？', options: ['困難的', '不同的', '相同的', '簡單的'], correct: '不同的' },
+      { q: '"famous" 中文？', options: ['有名的', '快樂的', '富有的', '安全的'], correct: '有名的' },
+      { q: '"healthy" 中文？', options: ['富有的', '健康的', '快樂的', '美麗的'], correct: '健康的' },
+      { q: '"discover" 中文？', options: ['討論', '發現', '決定', '描述'], correct: '發現' },
+      { q: '"protect" 中文？', options: ['保護', '計畫', '練習', '提醒'], correct: '保護' },
+      { q: '"culture" 中文？', options: ['文化', '農業', '計算', '聲音'], correct: '文化' },
+      { q: '"experience" 中文？', options: ['解釋', '經驗', '考試', '專家'], correct: '經驗' },
+    ],
+  },
+  '5-2': { // 五下
+    1: [
+      { q: '"如果下雨，我會待在家" 英文？', options: ['If it rain, I stay home.', 'If it rains, I will stay home.', 'If it will rain, I stay.', 'If rains, I stayed.'], correct: 'If it rains, I will stay home.' },
+      { q: '"條件句" if 子句用什麼時態？', options: ['未來式', '現在式', '過去式', '完成式'], correct: '現在式' },
+      { q: '"條件句" 主句用什麼？', options: ['will + 原形', '原形', 'ing', 'ed'], correct: 'will + 原形' },
+      { q: '"unless" 中文？', options: ['因為', '雖然', '除非', '所以'], correct: '除非' },
+      { q: '"假如我是你" 英文？', options: ['If I am you', 'If I were you', 'If I was you', 'If I be you'], correct: 'If I were you' },
+      { q: '"我希望我會飛" 英文？', options: ['I hope I fly.', 'I wish I could fly.', 'I want fly.', 'I will fly.'], correct: 'I wish I could fly.' },
+      { q: '"could" 是哪個字的過去式？', options: ['can', 'will', 'shall', 'may'], correct: 'can' },
+      { q: '"would" 是哪個字的過去式？', options: ['can', 'will', 'shall', 'must'], correct: 'will' },
+      { q: '"should" 中文？', options: ['可以', '必須', '應該', '會'], correct: '應該' },
+      { q: '"might" 中文？', options: ['一定', '可能', '必須', '會'], correct: '可能' },
+    ],
+    2: [
+      { q: '"動名詞" 形式？', options: ['動詞 + ing', '動詞 + ed', '動詞原形', 'to + 動詞'], correct: '動詞 + ing' },
+      { q: '"我喜歡游泳" 英文？', options: ['I like swim.', 'I like swimming.', 'I like to swimming.', 'I am like swim.'], correct: 'I like swimming.' },
+      { q: '"to + 原形" 叫做？', options: ['動名詞', '不定詞', '分詞', '名詞'], correct: '不定詞' },
+      { q: '"我想要去" 英文？', options: ['I want go.', 'I want to go.', 'I want going.', 'I want gone.'], correct: 'I want to go.' },
+      { q: '"我打算學習" 英文？', options: ['I plan study.', 'I plan to study.', 'I plan studying.', 'I planning study.'], correct: 'I plan to study.' },
+      { q: '"enjoy" 後接？', options: ['動詞原形', 'to + 原形', '動詞 ing', '名詞'], correct: '動詞 ing' },
+      { q: '"finish" 後接？', options: ['動詞原形', 'to + 原形', '動詞 ing', '過去式'], correct: '動詞 ing' },
+      { q: '"decide" 後接？', options: ['動詞原形', 'to + 原形', '動詞 ing', '名詞'], correct: 'to + 原形' },
+      { q: '"forget to do" 中文？', options: ['忘記做了某事', '忘記要做某事', '記得做某事', '記得已做'], correct: '忘記要做某事' },
+      { q: '"forget doing" 中文？', options: ['忘記要做', '忘記做過', '記得要做', '記得做過'], correct: '忘記做過' },
+    ],
+    3: [
+      { q: '"反身代名詞" myself 中文？', options: ['我', '我的', '我自己', '對我'], correct: '我自己' },
+      { q: '"她自己做的" 英文？', options: ['She made it herself.', 'She made by herself.', 'A 和 B 都對', '她自己 herself'], correct: 'A 和 B 都對' },
+      { q: '"yourself" 中文？', options: ['你', '你的', '你自己', '你們'], correct: '你自己' },
+      { q: '"themselves" 中文？', options: ['他們', '他們的', '他們自己', '他們的東西'], correct: '他們自己' },
+      { q: '"by myself" 中文？', options: ['和我一起', '為我', '我自己（獨自）', '靠近我'], correct: '我自己（獨自）' },
+      { q: '"each other" 中文？', options: ['每一個', '彼此', '其他', '另一個'], correct: '彼此' },
+      { q: '"one another" 中文？', options: ['彼此', '另一個', '一個', '其他'], correct: '彼此' },
+      { q: '"both" 中文？', options: ['每一個', '兩個都', '其中一個', '所有'], correct: '兩個都' },
+      { q: '"either" 中文？', options: ['兩個都', '兩個之一', '都不是', '每一個'], correct: '兩個之一' },
+      { q: '"neither" 中文？', options: ['兩個都', '兩個之一', '兩者都不', '其一'], correct: '兩者都不' },
+    ],
+    4: [
+      { q: '副詞 quickly 的形容詞？', options: ['quickly', 'quick', 'quicker', 'quickest'], correct: 'quick' },
+      { q: '形容詞 careful 的副詞？', options: ['careful', 'carefully', 'carely', 'caring'], correct: 'carefully' },
+      { q: '"她跑得很快" 英文？', options: ['She runs quick.', 'She runs quickly.', 'She is run quick.', 'She quickly run.'], correct: 'She runs quickly.' },
+      { q: '"good" 的副詞形式？', options: ['goodly', 'well', 'better', 'good'], correct: 'well' },
+      { q: '"happy" 的副詞？', options: ['happily', 'happyly', 'happiness', 'happen'], correct: 'happily' },
+      { q: '"easy" 的副詞？', options: ['easyly', 'easily', 'ease', 'eagy'], correct: 'easily' },
+      { q: '頻率副詞放哪？', options: ['動詞前', '動詞後', '句首', '句尾'], correct: '動詞前' },
+      { q: '"here" 是？', options: ['名詞', '動詞', '副詞', '形容詞'], correct: '副詞' },
+      { q: '"there" 是？', options: ['名詞', '動詞', '副詞', '介系詞'], correct: '副詞' },
+      { q: '"very" 中文？', options: ['許多', '非常', '一些', '更'], correct: '非常' },
+    ],
+    5: [
+      { q: '"discover" 中文？', options: ['討論', '發現', '決定', '描述'], correct: '發現' },
+      { q: '"invent" 中文？', options: ['進入', '發明', '邀請', '想像'], correct: '發明' },
+      { q: '"explore" 中文？', options: ['解釋', '探索', '展示', '經驗'], correct: '探索' },
+      { q: '"appear" 中文？', options: ['出現', '消失', '應用', '欣賞'], correct: '出現' },
+      { q: '"disappear" 中文？', options: ['出現', '消失', '不同意', '不同'], correct: '消失' },
+      { q: '"increase" 中文？', options: ['增加', '減少', '進入', '相信'], correct: '增加' },
+      { q: '"decrease" 中文？', options: ['增加', '減少', '決定', '描述'], correct: '減少' },
+      { q: '"wonderful" 中文？', options: ['驚奇的', '美好的', '好奇的', '害怕的'], correct: '美好的' },
+      { q: '"dangerous" 中文？', options: ['危險的', '勇敢的', '不同的', '可怕的'], correct: '危險的' },
+      { q: '"delicious" 中文？', options: ['不同的', '困難的', '美味的', '可口的'], correct: '美味的' },
+    ],
+  },
+  '6-1': { // 六上
+    1: [
+      { q: '"if + 過去式, would + 原形" 表達？', options: ['真實情況', '與現在事實相反', '過去事實相反', '未來計畫'], correct: '與現在事實相反' },
+      { q: '"如果我是你, 我會去" 英文？', options: ['If I am you, I will go.', 'If I were you, I would go.', 'If I was you, I go.', 'If I am you, I go.'], correct: 'If I were you, I would go.' },
+      { q: '"as if" 中文？', options: ['如果', '彷彿', '即使', '只要'], correct: '彷彿' },
+      { q: '"她說起話來像個老師" 英文？', options: ['She talks like teacher.', 'She talks as if she were a teacher.', 'She is like teacher.', 'She is teacher talk.'], correct: 'She talks as if she were a teacher.' },
+      { q: '"wish + 過去式" 表達？', options: ['真實希望', '與現在相反的願望', '過去願望', '未來願望'], correct: '與現在相反的願望' },
+      { q: '"我希望我有錢" 英文？', options: ['I hope I am rich.', 'I wish I were rich.', 'I want I rich.', 'I am rich.'], correct: 'I wish I were rich.' },
+      { q: '"otherwise" 中文？', options: ['否則', '另一個', '其他', '雖然'], correct: '否則' },
+      { q: '"unless" 中文？', options: ['因為', '雖然', '除非', '如果'], correct: '除非' },
+      { q: '"as long as" 中文？', options: ['當...時', '只要', '雖然', '因此'], correct: '只要' },
+      { q: '"in case" 中文？', options: ['以防', '如果', '雖然', '當'], correct: '以防' },
+    ],
+    2: [
+      { q: '"since" 接時間點，搭配什麼時態？', options: ['過去式', '現在完成式', '未來式', '進行式'], correct: '現在完成式' },
+      { q: '"我已經住這裡5年了" 英文？', options: ['I live here 5 years.', 'I have lived here for 5 years.', 'I lived here 5 years.', 'I am living 5 years.'], correct: 'I have lived here for 5 years.' },
+      { q: '"自從2010年起" 英文？', options: ['for 2010', 'since 2010', 'from 2010', 'after 2010'], correct: 'since 2010' },
+      { q: '"持續5年" 英文？', options: ['for 5 years', 'since 5 years', '5 years ago', 'in 5 years'], correct: 'for 5 years' },
+      { q: '"被動語態" the cake ___ by mom.', options: ['makes', 'made', 'is made', 'making'], correct: 'is made' },
+      { q: '"He ___ a teacher for 10 years." 填？', options: ['is', 'was', 'has been', 'have been'], correct: 'has been' },
+      { q: '"have/has + 過去分詞" 是？', options: ['過去式', '現在完成式', '進行式', '被動式'], correct: '現在完成式' },
+      { q: '"recently" 中文？', options: ['最近', '很少', '突然', '隨意'], correct: '最近' },
+      { q: '"lately" 中文？', options: ['最近', '晚的', '遲到', '稍後'], correct: '最近' },
+      { q: '"so far" 中文？', options: ['很遠', '迄今為止', '所以', '太遠'], correct: '迄今為止' },
+    ],
+    3: [
+      { q: '"The boy ___ is reading is my brother." 填？', options: ['who', 'which', 'where', 'when'], correct: 'who' },
+      { q: '"This is the book ___ I like." 填？', options: ['who', 'which', 'when', 'where'], correct: 'which' },
+      { q: '"The place ___ I was born is Taipei." 填？', options: ['who', 'which', 'where', 'when'], correct: 'where' },
+      { q: '"關係副詞" when 用於？', options: ['人', '物', '時間', '地點'], correct: '時間' },
+      { q: '"關係副詞" where 用於？', options: ['人', '物', '時間', '地點'], correct: '地點' },
+      { q: '"that" 可代替？', options: ['只有 who', '只有 which', 'who 和 which', '都不能'], correct: 'who 和 which' },
+      { q: '"whose" 中文？', options: ['誰', '誰的', '哪個', '什麼'], correct: '誰的' },
+      { q: '"whom" 用於什麼位置？', options: ['主格', '受格', '所有格', '同位語'], correct: '受格' },
+      { q: '"先行詞" 是？', options: ['關係子句的主詞', '被修飾的名詞', '關係代名詞', '副詞'], correct: '被修飾的名詞' },
+      { q: '"限定用法" 和 "非限定用法" 差別？', options: ['有無逗號', '有無動詞', '有無主詞', '有無受詞'], correct: '有無逗號' },
+    ],
+    4: [
+      { q: '"間接問句" 是？', options: ['疑問句的常見形式', '名詞子句作受詞', '形容詞子句', '副詞子句'], correct: '名詞子句作受詞' },
+      { q: '"我不知道他是誰" 英文？', options: ['I don\'t know who is he.', 'I don\'t know who he is.', 'I no know who he.', 'I don\'t know is he who.'], correct: 'I don\'t know who he is.' },
+      { q: '"請問現在幾點？" 間接問句英文？', options: ['Excuse me, what time is it?', 'Excuse me, can you tell me what time it is?', '兩者皆可', 'Excuse me, what is time?'], correct: '兩者皆可' },
+      { q: '"我想知道她住哪" 英文？', options: ['I want to know where does she live.', 'I want to know where she lives.', 'I want know where she live.', 'I know where she live.'], correct: 'I want to know where she lives.' },
+      { q: '"if/whether" 在間接問句中表示？', options: ['因為', '是否', '如果', '雖然'], correct: '是否' },
+      { q: '"請告訴我..." 英文？', options: ['Please tell me...', 'Please me tell...', 'Tell me please...', 'Please you tell me...'], correct: 'Please tell me...' },
+      { q: '"do you think" 加在哪？', options: ['句首', '疑問詞後', '句尾', '不能加'], correct: '疑問詞後' },
+      { q: '"who do you think...?" 中文？', options: ['誰想你？', '你認為誰...？', '你想誰？', '誰是你想的？'], correct: '你認為誰...？' },
+      { q: '"reported speech" 是？', options: ['直接引述', '間接引述', '感嘆句', '疑問句'], correct: '間接引述' },
+      { q: '"He said \'I am happy\'" 改間接？', options: ['He said he is happy.', 'He said he was happy.', 'He said I am happy.', 'He said happy.'], correct: 'He said he was happy.' },
+    ],
+    5: [
+      { q: '"environment" 中文？', options: ['環境', '事件', '元素', '娛樂'], correct: '環境' },
+      { q: '"pollution" 中文？', options: ['人口', '污染', '政治', '保護'], correct: '污染' },
+      { q: '"recycle" 中文？', options: ['回收', '紀錄', '推薦', '減少'], correct: '回收' },
+      { q: '"reduce" 中文？', options: ['增加', '減少', '回收', '重複'], correct: '減少' },
+      { q: '"reuse" 中文？', options: ['重複使用', '減少', '回收', '結果'], correct: '重複使用' },
+      { q: '"climate" 中文？', options: ['氣候', '攀爬', '俱樂部', '城市'], correct: '氣候' },
+      { q: '"global warming" 中文？', options: ['全球暖化', '全球冷化', '全球變化', '全球污染'], correct: '全球暖化' },
+      { q: '"endangered" 中文？', options: ['危險的', '瀕臨絕種的', '足夠的', '能源的'], correct: '瀕臨絕種的' },
+      { q: '"species" 中文？', options: ['特殊', '物種', '速度', '空間'], correct: '物種' },
+      { q: '"protect" 中文？', options: ['保護', '計畫', '練習', '提醒'], correct: '保護' },
+    ],
+  },
+  '6-2': { // 六下
+    1: [
+      { q: '最高級：This is the ___ book. (interesting)', options: ['interestinger', 'most interesting', 'more interesting', 'interestingest'], correct: 'most interesting' },
+      { q: '"the + 最高級 + in/of"', options: ['範圍用 in', '範圍用 of', '人數複數用 of', '以上 B 和 C 對'], correct: '以上 B 和 C 對' },
+      { q: '"three times bigger" 中文？', options: ['大三倍', '小三倍', '三個比較大', '第三大'], correct: '大三倍' },
+      { q: '"as big as" 中文？', options: ['比...大', '和...一樣大', '比...小', '最大的'], correct: '和...一樣大' },
+      { q: '"the more ... the more..."', options: ['越...越...', '更多...更多...', '比較多...比較多...', '兩者皆可'], correct: '兩者皆可' },
+      { q: '"twice as much" 中文？', options: ['兩倍多', '兩次', '太多', '兩部分'], correct: '兩倍多' },
+      { q: '"比較級 + and + 比較級" 表達？', options: ['越來越...', '一樣...', '比...', '最...'], correct: '越來越...' },
+      { q: '"superlative" 是？', options: ['原級', '比較級', '最高級', '副詞'], correct: '最高級' },
+      { q: '"comparative" 是？', options: ['原級', '比較級', '最高級', '副詞'], correct: '比較級' },
+      { q: '"the same as" 中文？', options: ['和...相同', '和...不同', '和...一樣', 'A 和 C 對'], correct: 'A 和 C 對' },
+    ],
+    2: [
+      { q: '"information" 是？', options: ['可數', '不可數', '動詞', '形容詞'], correct: '不可數' },
+      { q: '"news" 是？', options: ['可數', '不可數', '動詞', '形容詞'], correct: '不可數' },
+      { q: '"furniture" 是？', options: ['可數', '不可數', '動詞', '形容詞'], correct: '不可數' },
+      { q: '"advice" 是？', options: ['可數', '不可數', '動詞', '形容詞'], correct: '不可數' },
+      { q: '"a piece of news" 中文？', options: ['一則新聞', '一份新聞', '一個新聞', 'A 和 B 都對'], correct: '一則新聞' },
+      { q: '"a few" 用於？', options: ['可數複數', '不可數', '單數', '形容詞'], correct: '可數複數' },
+      { q: '"a little" 用於？', options: ['可數複數', '不可數', '單數', '形容詞'], correct: '不可數' },
+      { q: '"few" 中文？', options: ['一些', '幾乎沒有', '很多', '都'], correct: '幾乎沒有' },
+      { q: '"little" 中文？', options: ['一些', '幾乎沒有', '很多', '小的'], correct: '幾乎沒有' },
+      { q: '"plenty of" 中文？', options: ['少量', '足夠的', '大量的', '一個'], correct: '大量的' },
+    ],
+    3: [
+      { q: '"although" 中文？', options: ['因為', '雖然', '所以', '當'], correct: '雖然' },
+      { q: '"because" 中文？', options: ['雖然', '因為', '但是', '如果'], correct: '因為' },
+      { q: '"so that" 中文？', options: ['以便', '因此', '所以', 'A 或 B'], correct: '以便' },
+      { q: '"such...that" 中文？', options: ['如此...以致於', '這樣的...', '那麼的...', '某些...'], correct: '如此...以致於' },
+      { q: '"too...to" 中文？', options: ['太...而不能', '也太', '太多的', '太遠的'], correct: '太...而不能' },
+      { q: '"enough to" 中文？', options: ['足夠去', '足夠的', '太多', '剛好'], correct: '足夠去' },
+      { q: '"on the other hand" 中文？', options: ['在另一方面', '在另一邊', '另一個', '另一隻手'], correct: '在另一方面' },
+      { q: '"in addition" 中文？', options: ['另外', '加法', '在裡面', '加入'], correct: '另外' },
+      { q: '"for example" 中文？', options: ['因為例子', '舉例來說', '為例子', '例子'], correct: '舉例來說' },
+      { q: '"in fact" 中文？', options: ['事實上', '在事實中', '實際上', 'A 和 C 都對'], correct: 'A 和 C 都對' },
+    ],
+    4: [
+      { q: '"discover" 中文？', options: ['討論', '發現', '決定', '描述'], correct: '發現' },
+      { q: '"achieve" 中文？', options: ['完成', '達成', '允許', '到達'], correct: '達成' },
+      { q: '"succeed" 中文？', options: ['成功', '繼承', '建議', '召開'], correct: '成功' },
+      { q: '"opportunity" 中文？', options: ['機會', '反對', '選擇', '操作'], correct: '機會' },
+      { q: '"challenge" 中文？', options: ['挑戰', '改變', '機會', '選擇'], correct: '挑戰' },
+      { q: '"experience" 中文？', options: ['解釋', '經驗', '考試', '專家'], correct: '經驗' },
+      { q: '"knowledge" 中文？', options: ['語言', '知識', '經驗', '能力'], correct: '知識' },
+      { q: '"imagination" 中文？', options: ['想像力', '訊息', '影響', '即將'], correct: '想像力' },
+      { q: '"creative" 中文？', options: ['好奇的', '有創意的', '小心的', '清楚的'], correct: '有創意的' },
+      { q: '"confident" 中文？', options: ['有自信的', '舒服的', '困惑的', '常見的'], correct: '有自信的' },
+    ],
+    5: [
+      { q: '"He suggested ___ to the park."', options: ['go', 'going', 'to go', 'goes'], correct: 'going' },
+      { q: '"She made me ___."', options: ['cry', 'to cry', 'crying', 'cried'], correct: 'cry' },
+      { q: '"I want you ___ here."', options: ['stay', 'to stay', 'staying', 'stays'], correct: 'to stay' },
+      { q: '"使役動詞" make/let/have 後接？', options: ['原形動詞', 'to + 原形', '動詞 ing', 'ed'], correct: '原形動詞' },
+      { q: '"see/hear + O + Ving" 表達？', options: ['看見/聽見動作正進行', '看完/聽完', '習慣', '應該'], correct: '看見/聽見動作正進行' },
+      { q: '"It is + adj + to V" 中文？', options: ['做某事是...的', '它是...', '是某事...', '某事是...'], correct: '做某事是...的' },
+      { q: '"It is important to study." 中文？', options: ['它重要學習', '重要的是學習', '學習是重要的', 'B 和 C 都對'], correct: 'B 和 C 都對' },
+      { q: '"分詞構句" 表示？', options: ['同時或原因', '只是時間', '只是地點', '只是原因'], correct: '同時或原因' },
+      { q: '"Walking on the street, I met him." 中文？', options: ['走在街上時，我遇到他', '我走過街道', '我遇見走路的他', '街上走著'], correct: '走在街上時，我遇到他' },
+      { q: '"Having finished the work, he left." 中文？', options: ['工作完成後他離開了', '完成工作的他', '他完成又離開', '離開後完成工作'], correct: '工作完成後他離開了' },
+    ],
+  },
+};
+
+function generateEnglishStage(grade, semester, level) {
+  const key = `${grade}-${semester}`;
+  const bank = englishBank[key];
+  if (!bank || !bank[level]) {
+    // 找不到時用一上第一關
+    return englishBank['1-1'][1].slice(0, 10);
+  }
+  const pool = [...bank[level]];
+  // 洗牌
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, 10);
+}
+
+// ============== 遊戲狀態 ==============
+let state = {
+  name: '',
+  grade: null,
+  semester: null,
+  subject: null,
+  currentStage: 1, // 1-5
+  questions: [],
+  currentIndex: 0,
+  stageScore: 0,
+  totalScore: 0,
+  totalCorrect: 0,
+  stageCorrect: 0,
+  streak: 0,
+  bestStreak: 0,
+  starsPerStage: [0, 0, 0, 0, 0], // 每關獲得幾顆星
+  unlockedStage: 1, // 已解鎖到第幾關
+};
+
+// ============== 互動 ==============
+document.querySelectorAll('.grade-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.grade = parseInt(btn.dataset.grade);
+  });
+});
+
+document.querySelectorAll('.semester-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.semester-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.semester = parseInt(btn.dataset.semester);
+  });
+});
+
+document.querySelectorAll('.choice-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    state.subject = card.dataset.subject;
+  });
+});
+
+function startAdventure() {
+  const name = document.getElementById('player-name').value.trim();
+  if (!name) { alert('🦉 小冒險家，請先告訴我你的名字喔！'); return; }
+  if (!state.grade) { alert('📚 請選擇你的年級！'); return; }
+  if (!state.semester) { alert('🌸 請選擇學期！'); return; }
+  if (!state.subject) { alert('🎯 請選擇你的冒險主題！'); return; }
+
+  state.name = name;
+  state.currentStage = 1;
+  state.totalScore = 0;
+  state.totalCorrect = 0;
+  state.bestStreak = 0;
+  state.starsPerStage = [0, 0, 0, 0, 0];
+  state.unlockedStage = 1;
+
+  renderMap();
+  showScreen('map');
+}
+
+// ============== 闖關地圖 ==============
+const stagePositions = [
+  { left: '12%', top: '78%', emoji: '🌱', name: '新芽小徑' },
+  { left: '32%', top: '60%', emoji: '🍄', name: '蘑菇森林' },
+  { left: '55%', top: '45%', emoji: '🌳', name: '巨木深處' },
+  { left: '78%', top: '28%', emoji: '🏰', name: '魔法城堡' },
+  { left: '50%', top: '10%', emoji: '👑', name: '森林王座' },
+];
+
+function renderMap() {
+  const semesterText = state.semester === 1 ? '上學期' : '下學期';
+  const subjectText = state.subject === 'math' ? '🔢 數學魔法' : '🔤 英文咒語';
+  document.getElementById('map-player-name').textContent = state.name;
+  document.getElementById('map-info-text').textContent = `${state.grade}年級 ${semesterText} · ${subjectText}`;
+  document.getElementById('map-subtitle').textContent = `從新芽小徑到森林王座 · 五關挑戰`;
+
+  const totalStars = state.starsPerStage.reduce((a, b) => a + b, 0);
+  document.getElementById('map-total-stars').textContent = totalStars;
+
+  const map = document.getElementById('map');
+  map.innerHTML = '';
+
+  // 裝飾
+  const decos = [
+    { emoji: '🌲', left: '5%', top: '20%' },
+    { emoji: '🌲', left: '85%', top: '60%' },
+    { emoji: '🌸', left: '70%', top: '85%' },
+    { emoji: '🌺', left: '20%', top: '40%' },
+    { emoji: '🦋', left: '60%', top: '70%' },
+    { emoji: '🐝', left: '90%', top: '15%' },
+    { emoji: '🌿', left: '40%', top: '88%' },
+    { emoji: '🍄', left: '8%', top: '50%' },
+  ];
+  decos.forEach((d, i) => {
+    const div = document.createElement('div');
+    div.className = 'map-decoration';
+    div.textContent = d.emoji;
+    div.style.left = d.left;
+    div.style.top = d.top;
+    div.style.animationDelay = (i * 0.3) + 's';
+    map.appendChild(div);
+  });
+
+  // 路徑（SVG）
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('class', 'map-path');
+  svg.setAttribute('viewBox', '0 0 100 100');
+  svg.setAttribute('preserveAspectRatio', 'none');
+  svg.style.width = '100%';
+  svg.style.height = '100%';
+  svg.style.position = 'absolute';
+  svg.style.top = '0';
+  svg.style.left = '0';
+
+  // 取每關位置中心點
+  const pts = stagePositions.map(p => ({
+    x: parseFloat(p.left),
+    y: parseFloat(p.top),
+  }));
+
+  // 繪製虛線路徑連接每一關
+  for (let i = 0; i < pts.length - 1; i++) {
+    const path = document.createElementNS(svgNS, 'path');
+    const x1 = pts[i].x, y1 = pts[i].y;
+    const x2 = pts[i + 1].x, y2 = pts[i + 1].y;
+    const cx = (x1 + x2) / 2 + (Math.random() - 0.5) * 8;
+    const cy = (y1 + y2) / 2 + (Math.random() - 0.5) * 5;
+    path.setAttribute('d', `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
+    path.setAttribute('stroke', i < state.unlockedStage - 1 ? '#c89824' : '#6b4423');
+    path.setAttribute('stroke-width', '0.8');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke-dasharray', '2 1.5');
+    path.setAttribute('opacity', '0.6');
+    svg.appendChild(path);
+  }
+  map.appendChild(svg);
+
+  // 各關卡按鈕
+  stagePositions.forEach((pos, i) => {
+    const stageNum = i + 1;
+    const btn = document.createElement('button');
+    btn.className = 'stage';
+    btn.style.left = pos.left;
+    btn.style.top = pos.top;
+    btn.style.transform = 'translate(-50%, -50%)';
+
+    const isCompleted = state.starsPerStage[i] > 0;
+    const isUnlocked = stageNum <= state.unlockedStage;
+
+    if (isCompleted) btn.classList.add('completed');
+    else if (isUnlocked) btn.classList.add('unlocked');
+    else btn.classList.add('locked');
+
+    btn.innerHTML = `
+      <div class="stage-emoji">${isUnlocked ? pos.emoji : '🔒'}</div>
+      <div class="stage-num">第${stageNum}關</div>
+      ${isCompleted ? `<div class="stage-stars">${'⭐'.repeat(state.starsPerStage[i])}</div>` : ''}
+    `;
+
+    if (isUnlocked) {
+      btn.onclick = () => startStage(stageNum);
+    }
+    map.appendChild(btn);
+  });
+
+  // 玩家標記
+  const player = document.createElement('div');
+  player.className = 'player-marker';
+  player.textContent = '🧚';
+  const cur = stagePositions[Math.min(state.unlockedStage - 1, 4)];
+  player.style.left = cur.left;
+  player.style.top = cur.top;
+  player.style.transform = 'translate(-50%, -120%)';
+  map.appendChild(player);
+}
+
+function startStage(stageNum) {
+  state.currentStage = stageNum;
+  state.questions = state.subject === 'math'
+    ? generateMathStage(state.grade, state.semester, stageNum)
+    : generateEnglishStage(state.grade, state.semester, stageNum);
+  state.currentIndex = 0;
+  state.stageScore = 0;
+  state.stageCorrect = 0;
+  state.streak = 0;
+
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = state.questions[state.currentIndex];
+  document.getElementById('q-number').textContent = `第 ${state.currentIndex + 1} 題 / 共 10 題`;
+  document.getElementById('q-stage').textContent = `第 ${state.currentStage} 關`;
+  document.getElementById('current-q').textContent = state.currentIndex + 1;
+  document.getElementById('current-stage').textContent = state.currentStage;
+  document.getElementById('current-score').textContent = state.stageScore;
+  document.getElementById('streak').textContent = state.streak;
+  document.getElementById('progress').style.width = ((state.currentIndex) / 10 * 100) + '%';
+
+  const mascots = ['🧚', '🦉', '🐿️', '🦊', '🦔', '🐢', '🦋', '🐝', '🌳', '🍄'];
+  document.getElementById('quiz-mascot').textContent = mascots[state.currentIndex % mascots.length];
+
+  document.getElementById('question-text').textContent = q.q;
+
+  const answersDiv = document.getElementById('answers');
+  answersDiv.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.textContent = opt;
+    btn.onclick = () => selectAnswer(btn, opt, q.correct);
+    answersDiv.appendChild(btn);
+  });
+}
+
+function selectAnswer(btn, selected, correct) {
+  document.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
+
+  if (String(selected) === String(correct)) {
+    btn.classList.add('correct');
+    // 較高關卡分數較高
+    const points = 5 + state.currentStage * 2; // 第1關7分 第5關15分
+    state.stageScore += points;
+    state.totalScore += points;
+    state.stageCorrect++;
+    state.totalCorrect++;
+    state.streak++;
+    if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+    burstConfetti();
+  } else {
+    btn.classList.add('wrong');
+    state.streak = 0;
+    document.querySelectorAll('.answer-btn').forEach(b => {
+      if (b.textContent === correct) b.classList.add('correct');
+    });
+  }
+
+  setTimeout(() => {
+    state.currentIndex++;
+    if (state.currentIndex >= 10) {
+      finishStage();
+    } else {
+      renderQuestion();
+    }
+  }, 1100);
+}
+
+function finishStage() {
+  document.getElementById('progress').style.width = '100%';
+
+  setTimeout(() => {
+    // 計算星星
+    let stars = 0;
+    if (state.stageCorrect >= 9) stars = 3;
+    else if (state.stageCorrect >= 7) stars = 2;
+    else if (state.stageCorrect >= 5) stars = 1;
+    else stars = 0;
+
+    state.starsPerStage[state.currentStage - 1] = Math.max(state.starsPerStage[state.currentStage - 1], stars);
+
+    // 通過至少1顆星才解鎖下一關
+    if (stars >= 1 && state.currentStage < 5) {
+      state.unlockedStage = Math.max(state.unlockedStage, state.currentStage + 1);
+    }
+
+    // 渲染結果
+    document.getElementById('stage-correct').textContent = state.stageCorrect;
+    document.getElementById('stage-score-val').textContent = state.stageScore;
+    document.getElementById('total-score-now').textContent = state.totalScore;
+
+    let starsHtml = '';
+    for (let i = 1; i <= 3; i++) {
+      starsHtml += `<span class="${i <= stars ? 'star-filled' : 'star-empty'}">⭐</span>`;
+    }
+    document.getElementById('stars-earned').innerHTML = starsHtml;
+
+    let mascot, feedback, title;
+    if (stars === 3) {
+      mascot = '🦄'; title = '完美通關！'; feedback = `太厲害了！${stagePositions[state.currentStage - 1].name} 完美征服！`;
+    } else if (stars === 2) {
+      mascot = '🧚'; title = '順利過關！'; feedback = `做得很好！繼續努力可以拿到三顆星喔！`;
+    } else if (stars === 1) {
+      mascot = '🦉'; title = '勉強過關'; feedback = `通過了！但還有進步空間，再挑戰看看吧！`;
+    } else {
+      mascot = '🐿️'; title = '需要再努力'; feedback = `這關還沒過喔！再挑戰看看，你可以的！`;
+    }
+
+    document.getElementById('stage-mascot').textContent = mascot;
+    document.getElementById('stage-complete-title').textContent = title;
+    document.getElementById('stage-feedback').textContent = feedback;
+
+    // 按鈕
+    const btnsDiv = document.getElementById('stage-complete-btns');
+    btnsDiv.innerHTML = '';
+
+    if (stars === 0) {
+      // 失敗
+      btnsDiv.innerHTML = `
+        <button class="btn btn-primary" onclick="retryStage()">🔄 再挑戰這關</button>
+        <button class="btn btn-secondary" onclick="backToMap()">🗺️ 回地圖</button>
+      `;
+    } else if (state.currentStage === 5) {
+      // 最後一關通過
+      btnsDiv.innerHTML = `
+        <button class="btn btn-primary" onclick="showFinalResult()">🏆 查看結算</button>
+      `;
+      burstConfetti(true);
+    } else {
+      btnsDiv.innerHTML = `
+        <button class="btn btn-primary" onclick="nextStage()">➡️ 下一關</button>
+        <button class="btn btn-magic" onclick="retryStage()">🔄 重挑這關</button>
+        <button class="btn btn-secondary" onclick="backToMap()">🗺️ 回地圖</button>
+      `;
+      burstConfetti(true);
+    }
+
+    showScreen('stage-complete');
+  }, 600);
+}
+
+function nextStage() {
+  startStage(state.currentStage + 1);
+}
+
+function retryStage() {
+  // 重挑時要把這關剛剛累計的分數扣回去（避免重複加分）
+  state.totalScore -= state.stageScore;
+  state.totalCorrect -= state.stageCorrect;
+  startStage(state.currentStage);
+}
+
+function backToMap() {
+  // 同樣扣回該關剛累計的分數，避免下次又加
+  state.totalScore -= state.stageScore;
+  state.totalCorrect -= state.stageCorrect;
+  state.stageScore = 0;
+  state.stageCorrect = 0;
+  renderMap();
+  showScreen('map');
+}
+
+function showFinalResult() {
+  const totalStars = state.starsPerStage.reduce((a, b) => a + b, 0);
+
+  document.getElementById('final-score').textContent = state.totalScore;
+  document.getElementById('final-correct').textContent = state.totalCorrect;
+  document.getElementById('final-stars-num').textContent = totalStars;
+  document.getElementById('final-streak').textContent = state.bestStreak;
+
+  let starsHtml = '';
+  for (let i = 1; i <= 15; i++) {
+    starsHtml += `<span class="${i <= totalStars ? 'star-filled' : 'star-empty'}">⭐</span>`;
+  }
+  document.getElementById('final-stars').innerHTML = starsHtml;
+
+  let medal, feedback;
+  if (totalStars >= 14) {
+    medal = '🥇👑';
+    feedback = `${state.name}，你是傳說中的森林大法師！完美征服整片森林！`;
+  } else if (totalStars >= 11) {
+    medal = '🥇';
+    feedback = `${state.name}，太厲害了！你已經是高階魔法師了！`;
+  } else if (totalStars >= 8) {
+    medal = '🥈';
+    feedback = `${state.name}，做得很棒！再多練習就能獲得最高榮耀！`;
+  } else if (totalStars >= 5) {
+    medal = '🥉';
+    feedback = `${state.name}，你成功通關了！繼續修煉一定會更厲害！`;
+  } else {
+    medal = '🌱';
+    feedback = `${state.name}，恭喜你完成冒險！每位大法師都是這樣練成的！`;
+  }
+
+  document.getElementById('final-medal').textContent = medal;
+  document.getElementById('final-feedback').textContent = feedback;
+
+  saveScore(totalStars);
+  showScreen('final');
+  burstConfetti(true);
+  setTimeout(() => burstConfetti(true), 800);
+}
+
+// ============== 排行榜 ==============
+let leaderboardData = [];
+let lbFilter = 'all';
+
+function saveScore(totalStars) {
+  leaderboardData.push({
+    name: state.name,
+    grade: state.grade,
+    semester: state.semester,
+    subject: state.subject,
+    score: state.totalScore,
+    correct: state.totalCorrect,
+    stars: totalStars,
+    date: new Date().toLocaleDateString('zh-TW'),
+  });
+  leaderboardData.sort((a, b) => b.score - a.score || b.stars - a.stars);
+  if (leaderboardData.length > 50) leaderboardData = leaderboardData.slice(0, 50);
+}
+
+document.querySelectorAll('.lb-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lb-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    lbFilter = btn.dataset.filter;
+    renderLeaderboard();
+  });
+});
+
+function renderLeaderboard() {
+  const list = document.getElementById('leader-list');
+  list.innerHTML = '';
+
+  let data = leaderboardData;
+  if (lbFilter !== 'all') {
+    data = leaderboardData.filter(d => d.subject === lbFilter);
+  }
+
+  if (data.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:30px;color:#6b4423;font-size:16px;">🌱 還沒有人挑戰過喔！<br>趕快成為第一位森林大法師吧！</div>';
+  } else {
+    data.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = `leader-item ${i < 3 ? 'rank-' + (i + 1) : ''}`;
+      const rankEmoji = i === 0 ? '👑' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
+      const subjectIcon = item.subject === 'math' ? '🔢' : '🔤';
+      const semesterText = item.semester === 1 ? '上' : '下';
+      div.innerHTML = `
+        <div class="leader-rank">${rankEmoji}</div>
+        <div class="leader-info">
+          <div class="leader-name">${item.name}</div>
+          <div class="leader-detail">${item.grade}年${semesterText} · ${subjectIcon} · ⭐${item.stars} · ${item.correct}/50 · ${item.date}</div>
+        </div>
+        <div class="leader-score">${item.score}</div>
+      `;
+      list.appendChild(div);
+    });
+  }
+}
+
+function showLeaderboard() {
+  renderLeaderboard();
+  showScreen('leaderboard');
+}
+
+function clearLeaderboard() {
+  if (confirm('🗑️ 確定要清空排行榜嗎？')) {
+    leaderboardData = [];
+    renderLeaderboard();
+  }
+}
+
+function restartAdventure() {
+  state.currentStage = 1;
+  state.totalScore = 0;
+  state.totalCorrect = 0;
+  state.bestStreak = 0;
+  state.starsPerStage = [0, 0, 0, 0, 0];
+  state.unlockedStage = 1;
+  renderMap();
+  showScreen('map');
+}
+
+function goHome() {
+  // 重置所有選擇
+  document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.semester-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('player-name').value = '';
+  state = {
+    name: '', grade: null, semester: null, subject: null,
+    currentStage: 1, questions: [], currentIndex: 0,
+    stageScore: 0, totalScore: 0, totalCorrect: 0, stageCorrect: 0,
+    streak: 0, bestStreak: 0,
+    starsPerStage: [0, 0, 0, 0, 0], unlockedStage: 1,
+  };
+  showScreen('start');
+}
+
+function showScreen(name) {
+  ['start', 'map', 'quiz', 'stage-complete', 'final', 'leaderboard'].forEach(s => {
+    document.getElementById(`screen-${s}`).classList.add('hidden');
+  });
+  document.getElementById(`screen-${name}`).classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============== 慶祝彩帶 ==============
+function burstConfetti(big = false) {
+  const colors = ['#ffd966', '#e85d75', '#a8d76e', '#b88fd8', '#7fa650', '#f0c14b'];
+  const count = big ? 80 : 20;
+  for (let i = 0; i < count; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.left = (50 + (Math.random() - 0.5) * 30) + '%';
+    c.style.top = '50%';
+    c.style.borderRadius = Math.random() < 0.5 ? '50%' : '0';
+    c.style.transform = `rotate(${Math.random() * 360}deg)`;
+    document.body.appendChild(c);
+
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 200 + Math.random() * 300;
+    const tx = Math.cos(angle) * speed;
+    const ty = Math.sin(angle) * speed - 200;
+
+    c.animate([
+      { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+      { transform: `translate(${tx}px, ${ty + 600}px) rotate(${720 + Math.random() * 360}deg)`, opacity: 0 }
+    ], { duration: 1500 + Math.random() * 500, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' });
+
+    setTimeout(() => c.remove(), 2000);
+  }
+}
+</script>
+</body>
+</html>
